@@ -1,0 +1,6 @@
+style:
+	go mod tidy
+	go fmt ./...
+	go vet ./...
+	goimports -w .
+	
