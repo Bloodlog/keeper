@@ -1,0 +1,29 @@
+edition = "2023";
+
+option go_package = "keeper/internal/proto/v1";
+
+package keeper.go.grpc.v1;
+
+import "model/register_request.proto";
+import "model/register_response.proto";
+import "model/login_request.proto";
+import "model/login_response.proto";
+
+service AuthService {
+  rpc Register(model.RegisterRequest) returns (model.RegisterResponse);
+  rpc Login(model.LoginRequest) returns (model.LoginResponse);
+}
+
+import "model/secret.proto";
+import "model/get_secret_request.proto";
+import "model/delete_secret_request.proto";
+import "model/delete_secret_response.proto";
+import "model/list_secrets_request.proto";
+import "model/list_secrets_response.proto";
+
+service DataService {
+  rpc SaveSecret(model.WriteSecret) returns (model.SaveSecretResponse);
+  rpc GetSecret(model.GetSecretRequest) returns (model.SecretResponse);
+  rpc DeleteSecret(model.DeleteSecretRequest) returns (model.DeleteSecretResponse);
+  rpc ListSecrets(model.ListSecretPathsRequest) returns (model.ListSecretPathsResponse);
+}

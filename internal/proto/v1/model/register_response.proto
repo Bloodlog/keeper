@@ -1,0 +1,11 @@
+edition = "2023";
+
+option go_package = "keeper/internal/proto/v1/model";
+
+package keeper.go.grpc.v1.model;
+
+message RegisterResponse {
+  bool success = 1;
+  string message = 2;
+  string token = 3;
+}
