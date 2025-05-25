@@ -1,0 +1,5 @@
+BEGIN TRANSACTION;
+
+DROP TABLE secret_versions;
+
+COMMIT;

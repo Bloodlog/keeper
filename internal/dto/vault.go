@@ -35,6 +35,5 @@ type DecryptedSecretResponse struct {
 	Path        string
 	Description string
 	Data        []byte
-	UserID      int64
 	Version     int64
 }

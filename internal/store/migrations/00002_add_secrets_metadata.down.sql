@@ -1,0 +1,5 @@
+BEGIN TRANSACTION;
+
+DROP TABLE secrets_metadata;
+
+COMMIT;

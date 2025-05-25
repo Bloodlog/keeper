@@ -13,10 +13,13 @@ import (
 )
 
 type RemoteVaultService interface {
-	SaveSecret(ctx context.Context, req *dto.AgentCreateSecret) error
 	GetSecret(ctx context.Context, token string, path string) (*dto.AgentGetSecret, error)
-	DeleteSecret(ctx context.Context, token string, path string) error
 	ListSecretPaths(ctx context.Context, token string) ([]string, error)
+	SaveSecret(ctx context.Context, req *dto.AgentCreateSecret) error
+	DeleteSecret(ctx context.Context, token, path string) error
+	DestroySecret(ctx context.Context, token, path string) error
+	DeleteMetadata(ctx context.Context, token, path string) error
+	UndeleteSecret(ctx context.Context, token, path string, version int64) error
 }
 
 type remoteVaultService struct {
@@ -25,22 +28,6 @@ type remoteVaultService struct {
 
 func NewRemoteVaultService(client pb.DataServiceClient) RemoteVaultService {
 	return &remoteVaultService{client: client}
-}
-
-func (s *remoteVaultService) SaveSecret(ctx context.Context, req *dto.AgentCreateSecret) error {
-	pbReq := &pbModel.WriteSecret{
-		Token:       util.Ptr(req.Token),
-		Path:        util.Ptr(req.Path),
-		Description: util.Ptr(req.Description),
-		Value:       req.Payload,
-		ExpiredAt:   timestamppb.New(req.ExpiredAt),
-	}
-
-	_, err := s.client.SaveSecret(ctx, pbReq)
-	if err != nil {
-		return fmt.Errorf("failed to create secret: %w", err)
-	}
-	return nil
 }
 
 func (s *remoteVaultService) GetSecret(ctx context.Context, token string, path string) (*dto.AgentGetSecret, error) {
@@ -70,6 +57,35 @@ func (s *remoteVaultService) GetSecret(ctx context.Context, token string, path s
 	}, nil
 }
 
+func (s *remoteVaultService) ListSecretPaths(ctx context.Context, token string) ([]string, error) {
+	req := &pbModel.ListSecretPathsRequest{
+		Token: util.Ptr(token),
+	}
+	resp, err := s.client.ListSecrets(ctx, req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to list secrets: %w", err)
+	}
+	paths := resp.GetPaths()
+
+	return paths, nil
+}
+
+func (s *remoteVaultService) SaveSecret(ctx context.Context, req *dto.AgentCreateSecret) error {
+	pbReq := &pbModel.WriteSecret{
+		Token:       util.Ptr(req.Token),
+		Path:        util.Ptr(req.Path),
+		Description: util.Ptr(req.Description),
+		Value:       req.Payload,
+		ExpiredAt:   timestamppb.New(req.ExpiredAt),
+	}
+
+	_, err := s.client.SaveSecret(ctx, pbReq)
+	if err != nil {
+		return fmt.Errorf("failed to create secret: %w", err)
+	}
+	return nil
+}
+
 func (s *remoteVaultService) DeleteSecret(ctx context.Context, token string, path string) error {
 	pbReq := &pbModel.DeleteSecretRequest{
 		Token: util.Ptr(token),
@@ -82,15 +98,39 @@ func (s *remoteVaultService) DeleteSecret(ctx context.Context, token string, pat
 	return nil
 }
 
-func (s *remoteVaultService) ListSecretPaths(ctx context.Context, token string) ([]string, error) {
-	req := &pbModel.ListSecretPathsRequest{
+func (s *remoteVaultService) DestroySecret(ctx context.Context, token string, path string) error {
+	pbReq := &pbModel.DeleteSecretRequest{
 		Token: util.Ptr(token),
+		Path:  util.Ptr(path),
 	}
-	resp, err := s.client.ListSecrets(ctx, req)
+	_, err := s.client.DestroySecret(ctx, pbReq)
 	if err != nil {
-		return nil, fmt.Errorf("failed to list secrets: %w", err)
+		return fmt.Errorf("failed to destroy secret: %w", err)
 	}
-	paths := resp.GetPaths()
+	return nil
+}
 
-	return paths, nil
+func (s *remoteVaultService) DeleteMetadata(ctx context.Context, token string, path string) error {
+	pbReq := &pbModel.DeleteSecretRequest{
+		Token: util.Ptr(token),
+		Path:  util.Ptr(path),
+	}
+	_, err := s.client.DeleteMetadata(ctx, pbReq)
+	if err != nil {
+		return fmt.Errorf("failed to delete metadata secret: %w", err)
+	}
+	return nil
+}
+
+func (s *remoteVaultService) UndeleteSecret(ctx context.Context, token string, path string, version int64) error {
+	pbReq := &pbModel.UndeleteSecretRequest{
+		Token:   util.Ptr(token),
+		Path:    util.Ptr(path),
+		Version: util.Ptr(version),
+	}
+	_, err := s.client.UndeleteSecret(ctx, pbReq)
+	if err != nil {
+		return fmt.Errorf("failed to undelete secret: %w", err)
+	}
+	return nil
 }

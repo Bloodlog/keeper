@@ -22,8 +22,11 @@ import "model/list_secrets_request.proto";
 import "model/list_secrets_response.proto";
 
 service DataService {
-  rpc SaveSecret(model.WriteSecret) returns (model.SaveSecretResponse);
   rpc GetSecret(model.GetSecretRequest) returns (model.SecretResponse);
-  rpc DeleteSecret(model.DeleteSecretRequest) returns (model.DeleteSecretResponse);
   rpc ListSecrets(model.ListSecretPathsRequest) returns (model.ListSecretPathsResponse);
+  rpc SaveSecret(model.WriteSecret) returns (model.SaveSecretResponse);
+  rpc DeleteSecret(model.DeleteSecretRequest) returns (model.DeleteSecretResponse);
+  rpc DestroySecret(model.DeleteSecretRequest) returns (model.DeleteSecretResponse);
+  rpc DeleteMetadata(model.DeleteSecretRequest) returns (model.DeleteSecretResponse);
+  rpc UndeleteSecret(model.UndeleteSecretRequest) returns (model.DeleteSecretResponse);
 }

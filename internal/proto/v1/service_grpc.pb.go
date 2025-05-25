@@ -161,20 +161,26 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	DataService_SaveSecret_FullMethodName   = "/keeper.go.grpc.v1.DataService/SaveSecret"
-	DataService_GetSecret_FullMethodName    = "/keeper.go.grpc.v1.DataService/GetSecret"
-	DataService_DeleteSecret_FullMethodName = "/keeper.go.grpc.v1.DataService/DeleteSecret"
-	DataService_ListSecrets_FullMethodName  = "/keeper.go.grpc.v1.DataService/ListSecrets"
+	DataService_GetSecret_FullMethodName      = "/keeper.go.grpc.v1.DataService/GetSecret"
+	DataService_ListSecrets_FullMethodName    = "/keeper.go.grpc.v1.DataService/ListSecrets"
+	DataService_SaveSecret_FullMethodName     = "/keeper.go.grpc.v1.DataService/SaveSecret"
+	DataService_DeleteSecret_FullMethodName   = "/keeper.go.grpc.v1.DataService/DeleteSecret"
+	DataService_DestroySecret_FullMethodName  = "/keeper.go.grpc.v1.DataService/DestroySecret"
+	DataService_DeleteMetadata_FullMethodName = "/keeper.go.grpc.v1.DataService/DeleteMetadata"
+	DataService_UndeleteSecret_FullMethodName = "/keeper.go.grpc.v1.DataService/UndeleteSecret"
 )
 
 // DataServiceClient is the client API for DataService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DataServiceClient interface {
-	SaveSecret(ctx context.Context, in *model.WriteSecret, opts ...grpc.CallOption) (*model.SaveSecretResponse, error)
 	GetSecret(ctx context.Context, in *model.GetSecretRequest, opts ...grpc.CallOption) (*model.SecretResponse, error)
-	DeleteSecret(ctx context.Context, in *model.DeleteSecretRequest, opts ...grpc.CallOption) (*model.DeleteSecretResponse, error)
 	ListSecrets(ctx context.Context, in *model.ListSecretPathsRequest, opts ...grpc.CallOption) (*model.ListSecretPathsResponse, error)
+	SaveSecret(ctx context.Context, in *model.WriteSecret, opts ...grpc.CallOption) (*model.SaveSecretResponse, error)
+	DeleteSecret(ctx context.Context, in *model.DeleteSecretRequest, opts ...grpc.CallOption) (*model.DeleteSecretResponse, error)
+	DestroySecret(ctx context.Context, in *model.DeleteSecretRequest, opts ...grpc.CallOption) (*model.DeleteSecretResponse, error)
+	DeleteMetadata(ctx context.Context, in *model.DeleteSecretRequest, opts ...grpc.CallOption) (*model.DeleteSecretResponse, error)
+	UndeleteSecret(ctx context.Context, in *model.UndeleteSecretRequest, opts ...grpc.CallOption) (*model.DeleteSecretResponse, error)
 }
 
 type dataServiceClient struct {
@@ -185,30 +191,10 @@ func NewDataServiceClient(cc grpc.ClientConnInterface) DataServiceClient {
 	return &dataServiceClient{cc}
 }
 
-func (c *dataServiceClient) SaveSecret(ctx context.Context, in *model.WriteSecret, opts ...grpc.CallOption) (*model.SaveSecretResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(model.SaveSecretResponse)
-	err := c.cc.Invoke(ctx, DataService_SaveSecret_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *dataServiceClient) GetSecret(ctx context.Context, in *model.GetSecretRequest, opts ...grpc.CallOption) (*model.SecretResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(model.SecretResponse)
 	err := c.cc.Invoke(ctx, DataService_GetSecret_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *dataServiceClient) DeleteSecret(ctx context.Context, in *model.DeleteSecretRequest, opts ...grpc.CallOption) (*model.DeleteSecretResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(model.DeleteSecretResponse)
-	err := c.cc.Invoke(ctx, DataService_DeleteSecret_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -225,14 +211,67 @@ func (c *dataServiceClient) ListSecrets(ctx context.Context, in *model.ListSecre
 	return out, nil
 }
 
+func (c *dataServiceClient) SaveSecret(ctx context.Context, in *model.WriteSecret, opts ...grpc.CallOption) (*model.SaveSecretResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(model.SaveSecretResponse)
+	err := c.cc.Invoke(ctx, DataService_SaveSecret_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dataServiceClient) DeleteSecret(ctx context.Context, in *model.DeleteSecretRequest, opts ...grpc.CallOption) (*model.DeleteSecretResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(model.DeleteSecretResponse)
+	err := c.cc.Invoke(ctx, DataService_DeleteSecret_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dataServiceClient) DestroySecret(ctx context.Context, in *model.DeleteSecretRequest, opts ...grpc.CallOption) (*model.DeleteSecretResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(model.DeleteSecretResponse)
+	err := c.cc.Invoke(ctx, DataService_DestroySecret_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dataServiceClient) DeleteMetadata(ctx context.Context, in *model.DeleteSecretRequest, opts ...grpc.CallOption) (*model.DeleteSecretResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(model.DeleteSecretResponse)
+	err := c.cc.Invoke(ctx, DataService_DeleteMetadata_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dataServiceClient) UndeleteSecret(ctx context.Context, in *model.UndeleteSecretRequest, opts ...grpc.CallOption) (*model.DeleteSecretResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(model.DeleteSecretResponse)
+	err := c.cc.Invoke(ctx, DataService_UndeleteSecret_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DataServiceServer is the server API for DataService service.
 // All implementations must embed UnimplementedDataServiceServer
 // for forward compatibility.
 type DataServiceServer interface {
-	SaveSecret(context.Context, *model.WriteSecret) (*model.SaveSecretResponse, error)
 	GetSecret(context.Context, *model.GetSecretRequest) (*model.SecretResponse, error)
-	DeleteSecret(context.Context, *model.DeleteSecretRequest) (*model.DeleteSecretResponse, error)
 	ListSecrets(context.Context, *model.ListSecretPathsRequest) (*model.ListSecretPathsResponse, error)
+	SaveSecret(context.Context, *model.WriteSecret) (*model.SaveSecretResponse, error)
+	DeleteSecret(context.Context, *model.DeleteSecretRequest) (*model.DeleteSecretResponse, error)
+	DestroySecret(context.Context, *model.DeleteSecretRequest) (*model.DeleteSecretResponse, error)
+	DeleteMetadata(context.Context, *model.DeleteSecretRequest) (*model.DeleteSecretResponse, error)
+	UndeleteSecret(context.Context, *model.UndeleteSecretRequest) (*model.DeleteSecretResponse, error)
 	mustEmbedUnimplementedDataServiceServer()
 }
 
@@ -243,17 +282,26 @@ type DataServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedDataServiceServer struct{}
 
-func (UnimplementedDataServiceServer) SaveSecret(context.Context, *model.WriteSecret) (*model.SaveSecretResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SaveSecret not implemented")
-}
 func (UnimplementedDataServiceServer) GetSecret(context.Context, *model.GetSecretRequest) (*model.SecretResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSecret not implemented")
+}
+func (UnimplementedDataServiceServer) ListSecrets(context.Context, *model.ListSecretPathsRequest) (*model.ListSecretPathsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSecrets not implemented")
+}
+func (UnimplementedDataServiceServer) SaveSecret(context.Context, *model.WriteSecret) (*model.SaveSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveSecret not implemented")
 }
 func (UnimplementedDataServiceServer) DeleteSecret(context.Context, *model.DeleteSecretRequest) (*model.DeleteSecretResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteSecret not implemented")
 }
-func (UnimplementedDataServiceServer) ListSecrets(context.Context, *model.ListSecretPathsRequest) (*model.ListSecretPathsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListSecrets not implemented")
+func (UnimplementedDataServiceServer) DestroySecret(context.Context, *model.DeleteSecretRequest) (*model.DeleteSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DestroySecret not implemented")
+}
+func (UnimplementedDataServiceServer) DeleteMetadata(context.Context, *model.DeleteSecretRequest) (*model.DeleteSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteMetadata not implemented")
+}
+func (UnimplementedDataServiceServer) UndeleteSecret(context.Context, *model.UndeleteSecretRequest) (*model.DeleteSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UndeleteSecret not implemented")
 }
 func (UnimplementedDataServiceServer) mustEmbedUnimplementedDataServiceServer() {}
 func (UnimplementedDataServiceServer) testEmbeddedByValue()                     {}
@@ -276,24 +324,6 @@ func RegisterDataServiceServer(s grpc.ServiceRegistrar, srv DataServiceServer) {
 	s.RegisterService(&DataService_ServiceDesc, srv)
 }
 
-func _DataService_SaveSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(model.WriteSecret)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DataServiceServer).SaveSecret(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DataService_SaveSecret_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DataServiceServer).SaveSecret(ctx, req.(*model.WriteSecret))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _DataService_GetSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(model.GetSecretRequest)
 	if err := dec(in); err != nil {
@@ -308,24 +338,6 @@ func _DataService_GetSecret_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DataServiceServer).GetSecret(ctx, req.(*model.GetSecretRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _DataService_DeleteSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(model.DeleteSecretRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DataServiceServer).DeleteSecret(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: DataService_DeleteSecret_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DataServiceServer).DeleteSecret(ctx, req.(*model.DeleteSecretRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -348,6 +360,96 @@ func _DataService_ListSecrets_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DataService_SaveSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(model.WriteSecret)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DataServiceServer).SaveSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DataService_SaveSecret_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DataServiceServer).SaveSecret(ctx, req.(*model.WriteSecret))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DataService_DeleteSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(model.DeleteSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DataServiceServer).DeleteSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DataService_DeleteSecret_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DataServiceServer).DeleteSecret(ctx, req.(*model.DeleteSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DataService_DestroySecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(model.DeleteSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DataServiceServer).DestroySecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DataService_DestroySecret_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DataServiceServer).DestroySecret(ctx, req.(*model.DeleteSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DataService_DeleteMetadata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(model.DeleteSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DataServiceServer).DeleteMetadata(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DataService_DeleteMetadata_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DataServiceServer).DeleteMetadata(ctx, req.(*model.DeleteSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DataService_UndeleteSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(model.UndeleteSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DataServiceServer).UndeleteSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DataService_UndeleteSecret_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DataServiceServer).UndeleteSecret(ctx, req.(*model.UndeleteSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DataService_ServiceDesc is the grpc.ServiceDesc for DataService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -356,20 +458,32 @@ var DataService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DataServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SaveSecret",
-			Handler:    _DataService_SaveSecret_Handler,
-		},
-		{
 			MethodName: "GetSecret",
 			Handler:    _DataService_GetSecret_Handler,
+		},
+		{
+			MethodName: "ListSecrets",
+			Handler:    _DataService_ListSecrets_Handler,
+		},
+		{
+			MethodName: "SaveSecret",
+			Handler:    _DataService_SaveSecret_Handler,
 		},
 		{
 			MethodName: "DeleteSecret",
 			Handler:    _DataService_DeleteSecret_Handler,
 		},
 		{
-			MethodName: "ListSecrets",
-			Handler:    _DataService_ListSecrets_Handler,
+			MethodName: "DestroySecret",
+			Handler:    _DataService_DestroySecret_Handler,
+		},
+		{
+			MethodName: "DeleteMetadata",
+			Handler:    _DataService_DeleteMetadata_Handler,
+		},
+		{
+			MethodName: "UndeleteSecret",
+			Handler:    _DataService_UndeleteSecret_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

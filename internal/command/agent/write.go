@@ -16,7 +16,7 @@ import (
 
 const flagKeyValue = "value"
 const flagKeyDescription = "description"
-const flagKeyMaxTTL = "description"
+const flagKeyMaxTTL = "max-ttl"
 
 var writeCmd = &cobra.Command{
 	Use:   "write",

@@ -74,6 +74,66 @@ func (x *DeleteSecretRequest) GetPath() string {
 	return ""
 }
 
+type UndeleteSecretRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         *string                `protobuf:"bytes,1,opt,name=token" json:"token,omitempty"`
+	Path          *string                `protobuf:"bytes,2,opt,name=path" json:"path,omitempty"`
+	Version       *int64                 `protobuf:"varint,3,opt,name=version" json:"version,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UndeleteSecretRequest) Reset() {
+	*x = UndeleteSecretRequest{}
+	mi := &file_model_delete_secret_request_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UndeleteSecretRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UndeleteSecretRequest) ProtoMessage() {}
+
+func (x *UndeleteSecretRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_model_delete_secret_request_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UndeleteSecretRequest.ProtoReflect.Descriptor instead.
+func (*UndeleteSecretRequest) Descriptor() ([]byte, []int) {
+	return file_model_delete_secret_request_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *UndeleteSecretRequest) GetToken() string {
+	if x != nil && x.Token != nil {
+		return *x.Token
+	}
+	return ""
+}
+
+func (x *UndeleteSecretRequest) GetPath() string {
+	if x != nil && x.Path != nil {
+		return *x.Path
+	}
+	return ""
+}
+
+func (x *UndeleteSecretRequest) GetVersion() int64 {
+	if x != nil && x.Version != nil {
+		return *x.Version
+	}
+	return 0
+}
+
 var File_model_delete_secret_request_proto protoreflect.FileDescriptor
 
 const file_model_delete_secret_request_proto_rawDesc = "" +
@@ -81,7 +141,11 @@ const file_model_delete_secret_request_proto_rawDesc = "" +
 	"!model/delete_secret_request.proto\x12\x17keeper.go.grpc.v1.model\"?\n" +
 	"\x13DeleteSecretRequest\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\x12\n" +
-	"\x04path\x18\x02 \x01(\tR\x04pathB Z\x1ekeeper/internal/proto/v1/modelb\beditionsp\xe8\a"
+	"\x04path\x18\x02 \x01(\tR\x04path\"[\n" +
+	"\x15UndeleteSecretRequest\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\x12\x12\n" +
+	"\x04path\x18\x02 \x01(\tR\x04path\x12\x18\n" +
+	"\aversion\x18\x03 \x01(\x03R\aversionB Z\x1ekeeper/internal/proto/v1/modelb\beditionsp\xe8\a"
 
 var (
 	file_model_delete_secret_request_proto_rawDescOnce sync.Once
@@ -95,9 +159,10 @@ func file_model_delete_secret_request_proto_rawDescGZIP() []byte {
 	return file_model_delete_secret_request_proto_rawDescData
 }
 
-var file_model_delete_secret_request_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_model_delete_secret_request_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_model_delete_secret_request_proto_goTypes = []any{
-	(*DeleteSecretRequest)(nil), // 0: keeper.go.grpc.v1.model.DeleteSecretRequest
+	(*DeleteSecretRequest)(nil),   // 0: keeper.go.grpc.v1.model.DeleteSecretRequest
+	(*UndeleteSecretRequest)(nil), // 1: keeper.go.grpc.v1.model.UndeleteSecretRequest
 }
 var file_model_delete_secret_request_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -118,7 +183,7 @@ func file_model_delete_secret_request_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_model_delete_secret_request_proto_rawDesc), len(file_model_delete_secret_request_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
