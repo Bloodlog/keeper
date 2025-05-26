@@ -91,3 +91,14 @@ _golangci-lint-rm-unformatted-report: _golangci-lint-format-report
 .PHONY: golangci-lint-clean
 golangci-lint-clean:
 	sudo rm -rf ./golangci-lint
+
+mock:
+	mockgen -source=internal/repository/access_token_repo.go \
+		-destination=internal/repository/mocks/access_token_repo_mock.go \
+		-package=mocks
+	mockgen -source=internal/repository/secret_repo.go \
+		-destination=internal/repository/mocks/secret_repo_mock.go \
+		-package=mocks
+	mockgen -source=internal/repository/user_repo.go \
+		-destination=internal/repository/mocks/user_repo_mock.go \
+		-package=mocks
