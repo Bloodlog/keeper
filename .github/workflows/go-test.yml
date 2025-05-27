@@ -18,9 +18,3 @@ jobs:
         run: |
           go test ./... -coverprofile=coverage.out
           go tool cover -func=coverage.out
-
-      - name: Upload coverage artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: coverage.out

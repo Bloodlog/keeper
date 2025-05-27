@@ -1,7 +1,6 @@
 package service
 
 import (
-	"context"
 	"errors"
 	"keeper/internal/dto"
 	"keeper/internal/proto/v1/mock"
@@ -19,7 +18,7 @@ func TestRemoteAuthService_Register(t *testing.T) {
 	mockClient := mock.NewMockAuthServiceClient(ctrl)
 	svc := NewRemoteAuthService(mockClient)
 
-	ctx := context.Background()
+	ctx := t.Context()
 	req := dto.RegisterUser{
 		Login:    "user",
 		Password: "pass",
@@ -74,7 +73,7 @@ func TestRemoteAuthService_Login(t *testing.T) {
 	mockClient := mock.NewMockAuthServiceClient(ctrl)
 	svc := NewRemoteAuthService(mockClient)
 
-	ctx := context.Background()
+	ctx := t.Context()
 	req := dto.LoginUser{
 		Login:    "user",
 		Password: "pass",
