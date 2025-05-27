@@ -43,6 +43,13 @@ func run(cfg *config.MainServerConfig) error {
 	if err != nil {
 		return fmt.Errorf("database error: %w", err)
 	}
+	// Init File storage
+	if cfg.Storage.StorageType == "file_storage" {
+		_, err := store.NewFileStorage(ctx, cfg.FileStorageConfig)
+		if err != nil {
+			return fmt.Errorf("file storage error: %w", err)
+		}
+	}
 	// Init repositories
 	userRepo := repository.NewUserRepository(database.Pool)
 	vaultRepo := repository.NewVaultRepository(database.Pool)
@@ -51,13 +58,11 @@ func run(cfg *config.MainServerConfig) error {
 	// Init services
 	jwtService := service.NewJwtService(cfg.Security)
 	authService := service.NewAuthService(database.Pool, userRepo, accessRepo, jwtService, cfg.Security, l)
-	vaultService := service.NewVaultService(vaultRepo, cfg.Security.DataEncryptionKey)
-	if cfg.Storage.StorageType == "file_storage" {
-		_, err := store.NewFileStorage(ctx, cfg.FileStorageConfig)
-		if err != nil {
-			return fmt.Errorf("file storage error: %w", err)
-		}
+	cryptoService, err := service.NewCryptoService(cfg.Security)
+	if err != nil {
+		return fmt.Errorf("failed to init crypto service: %w", err)
 	}
+	vaultService := service.NewVaultService(vaultRepo, cryptoService)
 
 	// Init handlers
 	// WEB handlers.

@@ -10,7 +10,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	v5 "github.com/jackc/pgx/v5"
+	pgx "github.com/jackc/pgx/v5"
 )
 
 // MockUserRepositoryInterface is a mock of UserRepositoryInterface interface.
@@ -37,7 +37,7 @@ func (m *MockUserRepositoryInterface) EXPECT() *MockUserRepositoryInterfaceMockR
 }
 
 // GetByLogin mocks base method.
-func (m *MockUserRepositoryInterface) GetByLogin(ctx context.Context, tx v5.Tx, login string) (entity.User, error) {
+func (m *MockUserRepositoryInterface) GetByLogin(ctx context.Context, tx pgx.Tx, login string) (entity.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByLogin", ctx, tx, login)
 	ret0, _ := ret[0].(entity.User)
@@ -52,7 +52,7 @@ func (mr *MockUserRepositoryInterfaceMockRecorder) GetByLogin(ctx, tx, login int
 }
 
 // Register mocks base method.
-func (m *MockUserRepositoryInterface) Register(ctx context.Context, tx v5.Tx, user entity.User) (entity.User, error) {
+func (m *MockUserRepositoryInterface) Register(ctx context.Context, tx pgx.Tx, user entity.User) (entity.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Register", ctx, tx, user)
 	ret0, _ := ret[0].(entity.User)

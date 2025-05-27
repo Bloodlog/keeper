@@ -2,11 +2,8 @@ package service
 
 import (
 	"context"
-	"encoding/hex"
 	"fmt"
 	"keeper/internal/dto"
-	"keeper/internal/security"
-
 	"keeper/internal/entity"
 	"keeper/internal/repository"
 )
@@ -24,14 +21,14 @@ type VaultService interface {
 }
 
 type vaultService struct {
-	repo              repository.VaultRepositoryInterface
-	dataEncryptionKey string
+	repo          repository.VaultRepositoryInterface
+	cryptoService CryptoService
 }
 
-func NewVaultService(repo repository.VaultRepositoryInterface, dataEncryptionKey string) VaultService {
+func NewVaultService(repo repository.VaultRepositoryInterface, cryptoService CryptoService) VaultService {
 	return &vaultService{
-		repo:              repo,
-		dataEncryptionKey: dataEncryptionKey,
+		repo:          repo,
+		cryptoService: cryptoService,
 	}
 }
 
@@ -41,12 +38,7 @@ func (s *vaultService) GetSecret(ctx context.Context, userID int64, path string)
 		return dto.DecryptedSecretResponse{}, fmt.Errorf("failed to get secret: %w", err)
 	}
 
-	key, err := hex.DecodeString(s.dataEncryptionKey)
-	if err != nil {
-		return dto.DecryptedSecretResponse{}, fmt.Errorf("failed to decode data key: %w", err)
-	}
-
-	decrypted, err := security.DecryptAESGCM(key, secret.Value)
+	decrypted, err := s.cryptoService.Decode(secret.Value)
 	if err != nil {
 		return dto.DecryptedSecretResponse{}, fmt.Errorf("failed to decrypt secret: %w", err)
 	}
@@ -76,12 +68,7 @@ func (s *vaultService) ListSecretsPaths(ctx context.Context, userID int64) ([]st
 }
 
 func (s *vaultService) SaveSecret(ctx context.Context, request *dto.ServerCreateSecret) error {
-	key, err := hex.DecodeString(s.dataEncryptionKey)
-	if err != nil {
-		return fmt.Errorf("failed to decode data key: %w", err)
-	}
-
-	encrypted, err := security.EncryptAESGCM(request.Payload, key)
+	encrypted, err := s.cryptoService.Encode(request.Payload)
 	if err != nil {
 		return fmt.Errorf("failed to encrypt secret: %w", err)
 	}

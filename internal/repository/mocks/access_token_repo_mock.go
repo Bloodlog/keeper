@@ -10,7 +10,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	v5 "github.com/jackc/pgx/v5"
+	pgx "github.com/jackc/pgx/v5"
 )
 
 // MockAccessTokenRepository is a mock of AccessTokenRepository interface.
@@ -37,7 +37,7 @@ func (m *MockAccessTokenRepository) EXPECT() *MockAccessTokenRepositoryMockRecor
 }
 
 // Create mocks base method.
-func (m *MockAccessTokenRepository) Create(ctx context.Context, tx v5.Tx, token *entity.AccessToken) error {
+func (m *MockAccessTokenRepository) Create(ctx context.Context, tx pgx.Tx, token *entity.AccessToken) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", ctx, tx, token)
 	ret0, _ := ret[0].(error)
@@ -51,7 +51,7 @@ func (mr *MockAccessTokenRepositoryMockRecorder) Create(ctx, tx, token interface
 }
 
 // FindValidByUserID mocks base method.
-func (m *MockAccessTokenRepository) FindValidByUserID(ctx context.Context, tx v5.Tx, userID int64) (entity.AccessToken, error) {
+func (m *MockAccessTokenRepository) FindValidByUserID(ctx context.Context, tx pgx.Tx, userID int64) (entity.AccessToken, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindValidByUserID", ctx, tx, userID)
 	ret0, _ := ret[0].(entity.AccessToken)

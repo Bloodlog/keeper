@@ -1,5 +1,10 @@
 GophKeeper представляет собой клиент-серверную систему, позволяющую пользователю надёжно и безопасно хранить логины, пароли, бинарные данные и прочую приватную информацию.
 
+![linter workflow](https://github.com/Bloodlog/keeper/actions/workflows/.github/workflows/golangci-lint.yml/badge.svg?event=push)
+
+![vet workflow](https://github.com/Bloodlog/keeper/actions/workflows/.github/workflows/statictest.yml/badge.svg?event=push)
+
+![test workflow](https://github.com/Bloodlog/keeper/actions/workflows/.github/workflows/go-test.yml/badge.svg?event=push)
 
 ## ⚙️ Конфигурация сервера
 

@@ -29,3 +29,21 @@ func TestEncryptDecryptAESGCM(t *testing.T) {
 		t.Errorf("decrypted data does not match original.\nGot:  %s\nWant: %s", decrypted, plaintext)
 	}
 }
+
+func TestEncryptAESGCM_InvalidKey(t *testing.T) {
+	key := []byte("short")
+	_, err := EncryptAESGCM([]byte("data"), key)
+	if err == nil || err.Error() == "" {
+		t.Fatal("expected encryption to fail with invalid key")
+	}
+}
+
+func TestDecryptAESGCM_ShortCiphertext(t *testing.T) {
+	key := make([]byte, 32)
+	_, _ = rand.Read(key)
+
+	_, err := DecryptAESGCM(key, []byte("short"))
+	if err == nil || err.Error() != "ciphertext too short" {
+		t.Fatalf("expected error on short ciphertext, got: %v", err)
+	}
+}

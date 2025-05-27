@@ -102,3 +102,5 @@ mock:
 	mockgen -source=internal/repository/user_repo.go \
 		-destination=internal/repository/mocks/user_repo_mock.go \
 		-package=mocks
+	mockgen -destination=internal/proto/v1/mock/mock_auth.go -package=mock keeper/internal/proto/v1 AuthServiceClient
+	mockgen -destination=internal/proto/v1/mock/mock_vault.go -package=mock keeper/internal/proto/v1 DataServiceClient
