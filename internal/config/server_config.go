@@ -3,9 +3,11 @@ package config
 import "time"
 
 type MainServerConfig struct {
+	Storage           Storage
 	GrpcServerConfig  GrpcServerConfig
 	BuildAgentsConfig BuildAgentsConfig
 	Database          DatabaseConfig
+	FileStorageConfig FileStorageConfig
 	Server            HTTPServerConfig
 	Security          SecurityConfig
 }
@@ -32,6 +34,17 @@ type DatabaseConfig struct {
 	DSN string
 }
 
+type FileStorageConfig struct {
+	Address  string
+	Username string
+	Password string
+	Port     int
+}
+
+type Storage struct {
+	StorageType string
+}
+
 type SecurityConfig struct {
 	EncryptionKey     string
 	DataEncryptionKey string
@@ -42,16 +55,17 @@ type SecurityConfig struct {
 
 func NewServerConfig() *MainServerConfig {
 	const (
-		httpAddress       = "127.0.0.1"
-		httpPORT          = 8080
-		grpcAddress       = "0.0.0.0"
-		grpcPORT          = 8081
-		dsn               = "postgres://keeper:password@localhost:5432/keeper?sslmode=disable"
-		downloadDir       = "./build/clients"
-		URLPrefix         = "/downloads/"
-		secret            = "secret"
-		dataEncryptionKey = "2fd36a2c3bcd3426f0fc92c84f8c56c1e91b40e372e3f1b739b1c1b0fa6fc457"
-		maxTokenTTL       = 24 * time.Hour
+		httpAddress          = "127.0.0.1"
+		httpPORT             = 8080
+		grpcAddress          = "0.0.0.0"
+		grpcPORT             = 8081
+		dsn                  = "postgres://keeper:password@localhost:5432/keeper?sslmode=disable"
+		downloadDir          = "./build/clients"
+		URLPrefix            = "/downloads/"
+		secret               = "secret"
+		dataEncryptionKey    = "2fd36a2c3bcd3426f0fc92c84f8c56c1e91b40e372e3f1b739b1c1b0fa6fc457"
+		maxTokenTTL          = 24 * time.Hour
+		defaultSecretStorage = "database"
 	)
 
 	return &MainServerConfig{
@@ -79,6 +93,15 @@ func NewServerConfig() *MainServerConfig {
 		BuildAgentsConfig: BuildAgentsConfig{
 			DownloadDir: downloadDir,
 			URLPrefix:   URLPrefix,
+		},
+		FileStorageConfig: FileStorageConfig{
+			Address:  httpAddress,
+			Port:     httpPORT,
+			Username: secret,
+			Password: dataEncryptionKey,
+		},
+		Storage: Storage{
+			StorageType: defaultSecretStorage,
 		},
 	}
 }

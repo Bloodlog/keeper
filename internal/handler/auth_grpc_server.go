@@ -27,40 +27,41 @@ func (s *AuthServerHandler) Register(
 	ctx context.Context,
 	req *pbModel.RegisterRequest,
 ) (*pbModel.RegisterResponse, error) {
-	requestDto := &dto.RegisterUser{
+	registerDto := &dto.RegisterUser{
 		Login:    req.GetLogin(),
 		Password: req.GetPassword(),
 	}
-	token, err := s.authService.Register(ctx, requestDto)
+	token, err := s.authService.Register(ctx, registerDto)
 	if err != nil {
 		return nil, fmt.Errorf("failed to register user: %w", err)
 	}
 
-	resp := &pbModel.RegisterResponse{}
-	resp.SetSuccess(true)
-	resp.SetMessage("Register successful.")
-	resp.SetToken(token.Token)
-
-	return resp, nil
+	return fillAuthResponse(&pbModel.RegisterResponse{}, "Register successful.", token.Token), nil
 }
 
 func (s *AuthServerHandler) Login(
 	ctx context.Context,
 	req *pbModel.LoginRequest,
 ) (*pbModel.LoginResponse, error) {
-	requestDto := &dto.LoginUser{
+	loginDto := &dto.LoginUser{
 		Login:    req.GetLogin(),
 		Password: req.GetPassword(),
 	}
-	token, err := s.authService.Login(ctx, requestDto)
+	token, err := s.authService.Login(ctx, loginDto)
 	if err != nil {
 		return nil, fmt.Errorf("failed to login: %w", err)
 	}
 
-	resp := &pbModel.LoginResponse{}
-	resp.SetSuccess(true)
-	resp.SetMessage("Login successful.")
-	resp.SetToken(token.Token)
+	return fillAuthResponse(&pbModel.LoginResponse{}, "Login successful.", token.Token), nil
+}
 
-	return resp, nil
+func fillAuthResponse[T interface {
+	SetSuccess(bool)
+	SetMessage(string)
+	SetToken(string)
+}](resp T, message, token string) T {
+	resp.SetSuccess(true)
+	resp.SetMessage(message)
+	resp.SetToken(token)
+	return resp
 }

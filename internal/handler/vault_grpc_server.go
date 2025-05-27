@@ -9,6 +9,7 @@ import (
 	pb "keeper/internal/proto/v1"
 	pbModel "keeper/internal/proto/v1/model"
 	"keeper/internal/service"
+	utils "keeper/internal/util"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -18,14 +19,12 @@ const errorInvalidToken = "invalid token: %w"
 type VaultServerHandler struct {
 	pb.UnimplementedDataServiceServer
 	vaultService service.VaultService
-	jwtService   service.JwtService
 	logger       *logger.ZapLogger
 }
 
-func NewVaultHandler(l *logger.ZapLogger, svc service.VaultService, jwtService service.JwtService) *VaultServerHandler {
+func NewVaultHandler(l *logger.ZapLogger, svc service.VaultService) *VaultServerHandler {
 	return &VaultServerHandler{
 		vaultService: svc,
-		jwtService:   jwtService,
 		logger:       l,
 	}
 }
@@ -34,7 +33,7 @@ func (s *VaultServerHandler) GetSecret(
 	ctx context.Context,
 	req *pbModel.GetSecretRequest,
 ) (*pbModel.SecretResponse, error) {
-	userID, err := s.jwtService.GetUserID(req.GetToken())
+	userID, err := utils.GetUserID(ctx)
 	if err != nil {
 		return nil, fmt.Errorf(errorInvalidToken, err)
 	}
@@ -68,7 +67,7 @@ func (s *VaultServerHandler) ListSecrets(
 	ctx context.Context,
 	req *pbModel.ListSecretPathsRequest,
 ) (*pbModel.ListSecretPathsResponse, error) {
-	userID, err := s.jwtService.GetUserID(req.GetToken())
+	userID, err := utils.GetUserID(ctx)
 	if err != nil {
 		return nil, fmt.Errorf(errorInvalidToken, err)
 	}
@@ -88,7 +87,7 @@ func (s *VaultServerHandler) SaveSecret(
 	ctx context.Context,
 	req *pbModel.WriteSecret,
 ) (*pbModel.SaveSecretResponse, error) {
-	userID, err := s.jwtService.GetUserID(req.GetToken())
+	userID, err := utils.GetUserID(ctx)
 	if err != nil {
 		return nil, fmt.Errorf(errorInvalidToken, err)
 	}
@@ -116,7 +115,7 @@ func (s *VaultServerHandler) DeleteSecret(
 	ctx context.Context,
 	req *pbModel.DeleteSecretRequest,
 ) (*pbModel.DeleteSecretResponse, error) {
-	userID, err := s.jwtService.GetUserID(req.GetToken())
+	userID, err := utils.GetUserID(ctx)
 	if err != nil {
 		return nil, fmt.Errorf(errorInvalidToken, err)
 	}
@@ -136,7 +135,7 @@ func (s *VaultServerHandler) DestroySecret(
 	ctx context.Context,
 	req *pbModel.DeleteSecretRequest,
 ) (*pbModel.DeleteSecretResponse, error) {
-	userID, err := s.jwtService.GetUserID(req.GetToken())
+	userID, err := utils.GetUserID(ctx)
 	if err != nil {
 		return nil, fmt.Errorf(errorInvalidToken, err)
 	}
@@ -156,7 +155,7 @@ func (s *VaultServerHandler) DeleteMetadata(
 	ctx context.Context,
 	req *pbModel.DeleteSecretRequest,
 ) (*pbModel.DeleteSecretResponse, error) {
-	userID, err := s.jwtService.GetUserID(req.GetToken())
+	userID, err := utils.GetUserID(ctx)
 	if err != nil {
 		return nil, fmt.Errorf(errorInvalidToken, err)
 	}
@@ -176,7 +175,7 @@ func (s *VaultServerHandler) UndeleteSecret(
 	ctx context.Context,
 	req *pbModel.UndeleteSecretRequest,
 ) (*pbModel.DeleteSecretResponse, error) {
-	userID, err := s.jwtService.GetUserID(req.GetToken())
+	userID, err := utils.GetUserID(ctx)
 	if err != nil {
 		return nil, fmt.Errorf(errorInvalidToken, err)
 	}

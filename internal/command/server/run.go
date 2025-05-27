@@ -52,10 +52,12 @@ func run(cfg *config.MainServerConfig) error {
 	jwtService := service.NewJwtService(cfg.Security)
 	authService := service.NewAuthService(database.Pool, userRepo, accessRepo, jwtService, cfg.Security, l)
 	vaultService := service.NewVaultService(vaultRepo, cfg.Security.DataEncryptionKey)
-	// minioClient, err := minio.New("localhost:9000", &minio.Options{
-	//	Creds:  credentials.NewStaticV4("minioadmin", "minioadmin", ""),
-	//	Secure: false, // если без TLS
-	// })
+	if cfg.Storage.StorageType == "file_storage" {
+		_, err := store.NewFileStorage(ctx, cfg.FileStorageConfig)
+		if err != nil {
+			return fmt.Errorf("file storage error: %w", err)
+		}
+	}
 
 	// Init handlers
 	// WEB handlers.
@@ -70,13 +72,13 @@ func run(cfg *config.MainServerConfig) error {
 
 	// GRPC handlers.
 	authHandler := handler.NewAuthHandler(l, authService)
-	vaultHandler := handler.NewVaultHandler(l, vaultService, jwtService)
+	vaultHandler := handler.NewVaultHandler(l, vaultService)
 
 	// Start HTTP server
 	initHTTPServer(ctx, g, cfg, router, l)
 
 	// Start Grpc Server
-	initGRPCServer(ctx, g, cfg, l, authHandler, vaultHandler)
+	initGRPCServer(ctx, g, cfg, l, authHandler, vaultHandler, jwtService)
 
 	err = g.Wait()
 	if err != nil {

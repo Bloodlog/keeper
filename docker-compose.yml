@@ -54,24 +54,24 @@ services:
       KEEPER_GRPC_ADDRESS: app-keeper
       KEEPER_GRPC_PORT: 8081
 
-#  minio-keeper:
-#    image: minio/minio:latest
-#    container_name: minio-keeper
-#    ports:
-#      - "9000:9000"   # API
-#      - "9001:9001"   # Web UI
-#    environment:
-#      MINIO_ROOT_USER: minioadmin       # логин
-#      MINIO_ROOT_PASSWORD: minioadmin   # пароль
-#    command: server /data --console-address ":9001"
-#    volumes:
-#      - minio_data:/data
-#    networks:
-#      - keeper
+  minio-keeper:
+    image: minio/minio:latest
+    container_name: minio-keeper
+    ports:
+      - "9000:9000"   # API
+      - "9001:9001"   # Web UI
+    environment:
+      MINIO_ROOT_USER: minioadmin       # логин
+      MINIO_ROOT_PASSWORD: minioadmin   # пароль
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - keeper
 
 volumes:
   postgres_data:
-#  minio_data:
+  minio_data:
 
 networks:
   keeper:
