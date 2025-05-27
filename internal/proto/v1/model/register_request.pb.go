@@ -8,11 +8,11 @@ package model
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	_ "google.golang.org/protobuf/types/gofeaturespb"
 )
 
 const (
@@ -23,11 +23,13 @@ const (
 )
 
 type RegisterRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Login         *string                `protobuf:"bytes,1,opt,name=login" json:"login,omitempty"`
-	Password      *string                `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Login       *string                `protobuf:"bytes,1,opt,name=login"`
+	xxx_hidden_Password    *string                `protobuf:"bytes,2,opt,name=password"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *RegisterRequest) Reset() {
@@ -55,45 +57,90 @@ func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RegisterRequest.ProtoReflect.Descriptor instead.
-func (*RegisterRequest) Descriptor() ([]byte, []int) {
-	return file_model_register_request_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *RegisterRequest) GetLogin() string {
-	if x != nil && x.Login != nil {
-		return *x.Login
+	if x != nil {
+		if x.xxx_hidden_Login != nil {
+			return *x.xxx_hidden_Login
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *RegisterRequest) GetPassword() string {
-	if x != nil && x.Password != nil {
-		return *x.Password
+	if x != nil {
+		if x.xxx_hidden_Password != nil {
+			return *x.xxx_hidden_Password
+		}
+		return ""
 	}
 	return ""
+}
+
+func (x *RegisterRequest) SetLogin(v string) {
+	x.xxx_hidden_Login = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 2)
+}
+
+func (x *RegisterRequest) SetPassword(v string) {
+	x.xxx_hidden_Password = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 1, 2)
+}
+
+func (x *RegisterRequest) HasLogin() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *RegisterRequest) HasPassword() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 1)
+}
+
+func (x *RegisterRequest) ClearLogin() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Login = nil
+}
+
+func (x *RegisterRequest) ClearPassword() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 1)
+	x.xxx_hidden_Password = nil
+}
+
+type RegisterRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Login    *string
+	Password *string
+}
+
+func (b0 RegisterRequest_builder) Build() *RegisterRequest {
+	m0 := &RegisterRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Login != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 2)
+		x.xxx_hidden_Login = b.Login
+	}
+	if b.Password != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 1, 2)
+		x.xxx_hidden_Password = b.Password
+	}
+	return m0
 }
 
 var File_model_register_request_proto protoreflect.FileDescriptor
 
 const file_model_register_request_proto_rawDesc = "" +
 	"\n" +
-	"\x1cmodel/register_request.proto\x12\x17keeper.go.grpc.v1.model\"C\n" +
+	"\x1cmodel/register_request.proto\x12\x17keeper.go.grpc.v1.model\x1a!google/protobuf/go_features.proto\"C\n" +
 	"\x0fRegisterRequest\x12\x14\n" +
 	"\x05login\x18\x01 \x01(\tR\x05login\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpasswordB Z\x1ekeeper/internal/proto/v1/modelb\beditionsp\xe8\a"
-
-var (
-	file_model_register_request_proto_rawDescOnce sync.Once
-	file_model_register_request_proto_rawDescData []byte
-)
-
-func file_model_register_request_proto_rawDescGZIP() []byte {
-	file_model_register_request_proto_rawDescOnce.Do(func() {
-		file_model_register_request_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_model_register_request_proto_rawDesc), len(file_model_register_request_proto_rawDesc)))
-	})
-	return file_model_register_request_proto_rawDescData
-}
+	"\bpassword\x18\x02 \x01(\tR\bpasswordB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
 
 var file_model_register_request_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_model_register_request_proto_goTypes = []any{

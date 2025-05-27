@@ -9,7 +9,6 @@ import (
 	pb "keeper/internal/proto/v1"
 	pbModel "keeper/internal/proto/v1/model"
 	"keeper/internal/service"
-	"keeper/internal/util"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -54,15 +53,15 @@ func (s *VaultServerHandler) GetSecret(
 	if secret.DeletedAt != nil {
 		deletedAt = timestamppb.New(*secret.DeletedAt)
 	}
+	resp := &pbModel.SecretResponse{}
+	resp.SetPath(secret.Path)
+	resp.SetDescription(secret.Description)
+	resp.SetValue(data)
+	resp.SetExpiredAt(timestamppb.New(secret.ExpiredAt))
+	resp.SetVersion(secret.Version)
+	resp.SetDeletedAt(deletedAt)
 
-	return &pbModel.SecretResponse{
-		Path:        util.Ptr(secret.Path),
-		Description: util.Ptr(secret.Description),
-		Value:       data,
-		ExpiredAt:   timestamppb.New(secret.ExpiredAt),
-		Version:     util.Ptr(secret.Version),
-		DeletedAt:   deletedAt,
-	}, nil
+	return resp, nil
 }
 
 func (s *VaultServerHandler) ListSecrets(
@@ -79,7 +78,10 @@ func (s *VaultServerHandler) ListSecrets(
 		return nil, fmt.Errorf("failed to list secrets: %w", err)
 	}
 
-	return &pbModel.ListSecretPathsResponse{Paths: paths}, nil
+	resp := &pbModel.ListSecretPathsResponse{}
+	resp.SetPaths(paths)
+
+	return resp, nil
 }
 
 func (s *VaultServerHandler) SaveSecret(
@@ -103,11 +105,11 @@ func (s *VaultServerHandler) SaveSecret(
 	if err != nil {
 		return nil, fmt.Errorf("failed to save secret: %w", err)
 	}
+	resp := &pbModel.SaveSecretResponse{}
+	resp.SetSuccess(true)
+	resp.SetMessage("Save: success")
 
-	return &pbModel.SaveSecretResponse{
-		Success: util.Ptr(true),
-		Message: util.Ptr("Save: success"),
-	}, nil
+	return resp, nil
 }
 
 func (s *VaultServerHandler) DeleteSecret(
@@ -124,7 +126,10 @@ func (s *VaultServerHandler) DeleteSecret(
 		return nil, fmt.Errorf("failed to delete secret: %w", err)
 	}
 
-	return &pbModel.DeleteSecretResponse{Message: util.Ptr("Soft delete: success")}, nil
+	resp := &pbModel.DeleteSecretResponse{}
+	resp.SetMessage("Soft delete: success")
+
+	return resp, nil
 }
 
 func (s *VaultServerHandler) DestroySecret(
@@ -141,7 +146,10 @@ func (s *VaultServerHandler) DestroySecret(
 		return nil, fmt.Errorf("failed to destroy secret: %w", err)
 	}
 
-	return &pbModel.DeleteSecretResponse{Message: util.Ptr("Destroy: success")}, nil
+	resp := &pbModel.DeleteSecretResponse{}
+	resp.SetMessage("Destroy: success")
+
+	return resp, nil
 }
 
 func (s *VaultServerHandler) DeleteMetadata(
@@ -158,7 +166,10 @@ func (s *VaultServerHandler) DeleteMetadata(
 		return nil, fmt.Errorf("failed to delete metadata secret: %w", err)
 	}
 
-	return &pbModel.DeleteSecretResponse{Message: util.Ptr("Delete key with metadata: success")}, nil
+	resp := &pbModel.DeleteSecretResponse{}
+	resp.SetMessage("Delete key with metadata: success")
+
+	return resp, nil
 }
 
 func (s *VaultServerHandler) UndeleteSecret(
@@ -175,5 +186,8 @@ func (s *VaultServerHandler) UndeleteSecret(
 		return nil, fmt.Errorf("failed to undelete secret: %w", err)
 	}
 
-	return &pbModel.DeleteSecretResponse{Message: util.Ptr("Undelete: success")}, nil
+	resp := &pbModel.DeleteSecretResponse{}
+	resp.SetMessage("Undelete: success")
+
+	return resp, nil
 }

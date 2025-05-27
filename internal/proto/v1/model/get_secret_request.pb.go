@@ -8,11 +8,11 @@ package model
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	_ "google.golang.org/protobuf/types/gofeaturespb"
 )
 
 const (
@@ -23,11 +23,13 @@ const (
 )
 
 type GetSecretRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Token         *string                `protobuf:"bytes,1,opt,name=token" json:"token,omitempty"`
-	Path          *string                `protobuf:"bytes,2,opt,name=path" json:"path,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Token       *string                `protobuf:"bytes,1,opt,name=token"`
+	xxx_hidden_Path        *string                `protobuf:"bytes,2,opt,name=path"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *GetSecretRequest) Reset() {
@@ -55,45 +57,90 @@ func (x *GetSecretRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetSecretRequest.ProtoReflect.Descriptor instead.
-func (*GetSecretRequest) Descriptor() ([]byte, []int) {
-	return file_model_get_secret_request_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *GetSecretRequest) GetToken() string {
-	if x != nil && x.Token != nil {
-		return *x.Token
+	if x != nil {
+		if x.xxx_hidden_Token != nil {
+			return *x.xxx_hidden_Token
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *GetSecretRequest) GetPath() string {
-	if x != nil && x.Path != nil {
-		return *x.Path
+	if x != nil {
+		if x.xxx_hidden_Path != nil {
+			return *x.xxx_hidden_Path
+		}
+		return ""
 	}
 	return ""
+}
+
+func (x *GetSecretRequest) SetToken(v string) {
+	x.xxx_hidden_Token = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 2)
+}
+
+func (x *GetSecretRequest) SetPath(v string) {
+	x.xxx_hidden_Path = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 1, 2)
+}
+
+func (x *GetSecretRequest) HasToken() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *GetSecretRequest) HasPath() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 1)
+}
+
+func (x *GetSecretRequest) ClearToken() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Token = nil
+}
+
+func (x *GetSecretRequest) ClearPath() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 1)
+	x.xxx_hidden_Path = nil
+}
+
+type GetSecretRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Token *string
+	Path  *string
+}
+
+func (b0 GetSecretRequest_builder) Build() *GetSecretRequest {
+	m0 := &GetSecretRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Token != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 2)
+		x.xxx_hidden_Token = b.Token
+	}
+	if b.Path != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 1, 2)
+		x.xxx_hidden_Path = b.Path
+	}
+	return m0
 }
 
 var File_model_get_secret_request_proto protoreflect.FileDescriptor
 
 const file_model_get_secret_request_proto_rawDesc = "" +
 	"\n" +
-	"\x1emodel/get_secret_request.proto\x12\x17keeper.go.grpc.v1.model\"<\n" +
+	"\x1emodel/get_secret_request.proto\x12\x17keeper.go.grpc.v1.model\x1a!google/protobuf/go_features.proto\"<\n" +
 	"\x10GetSecretRequest\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\x12\n" +
-	"\x04path\x18\x02 \x01(\tR\x04pathB Z\x1ekeeper/internal/proto/v1/modelb\beditionsp\xe8\a"
-
-var (
-	file_model_get_secret_request_proto_rawDescOnce sync.Once
-	file_model_get_secret_request_proto_rawDescData []byte
-)
-
-func file_model_get_secret_request_proto_rawDescGZIP() []byte {
-	file_model_get_secret_request_proto_rawDescOnce.Do(func() {
-		file_model_get_secret_request_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_model_get_secret_request_proto_rawDesc), len(file_model_get_secret_request_proto_rawDesc)))
-	})
-	return file_model_get_secret_request_proto_rawDescData
-}
+	"\x04path\x18\x02 \x01(\tR\x04pathB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
 
 var file_model_get_secret_request_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_model_get_secret_request_proto_goTypes = []any{

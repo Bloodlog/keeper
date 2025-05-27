@@ -8,11 +8,11 @@ package model
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	_ "google.golang.org/protobuf/types/gofeaturespb"
 )
 
 const (
@@ -23,10 +23,12 @@ const (
 )
 
 type DeleteSecretResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Message       *string                `protobuf:"bytes,1,opt,name=message" json:"message,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Message     *string                `protobuf:"bytes,1,opt,name=message"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *DeleteSecretResponse) Reset() {
@@ -54,37 +56,57 @@ func (x *DeleteSecretResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteSecretResponse.ProtoReflect.Descriptor instead.
-func (*DeleteSecretResponse) Descriptor() ([]byte, []int) {
-	return file_model_delete_secret_response_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *DeleteSecretResponse) GetMessage() string {
-	if x != nil && x.Message != nil {
-		return *x.Message
+	if x != nil {
+		if x.xxx_hidden_Message != nil {
+			return *x.xxx_hidden_Message
+		}
+		return ""
 	}
 	return ""
+}
+
+func (x *DeleteSecretResponse) SetMessage(v string) {
+	x.xxx_hidden_Message = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 1)
+}
+
+func (x *DeleteSecretResponse) HasMessage() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *DeleteSecretResponse) ClearMessage() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Message = nil
+}
+
+type DeleteSecretResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Message *string
+}
+
+func (b0 DeleteSecretResponse_builder) Build() *DeleteSecretResponse {
+	m0 := &DeleteSecretResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Message != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 1)
+		x.xxx_hidden_Message = b.Message
+	}
+	return m0
 }
 
 var File_model_delete_secret_response_proto protoreflect.FileDescriptor
 
 const file_model_delete_secret_response_proto_rawDesc = "" +
 	"\n" +
-	"\"model/delete_secret_response.proto\x12\x17keeper.go.grpc.v1.model\"0\n" +
+	"\"model/delete_secret_response.proto\x12\x17keeper.go.grpc.v1.model\x1a!google/protobuf/go_features.proto\"0\n" +
 	"\x14DeleteSecretResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessageB Z\x1ekeeper/internal/proto/v1/modelb\beditionsp\xe8\a"
-
-var (
-	file_model_delete_secret_response_proto_rawDescOnce sync.Once
-	file_model_delete_secret_response_proto_rawDescData []byte
-)
-
-func file_model_delete_secret_response_proto_rawDescGZIP() []byte {
-	file_model_delete_secret_response_proto_rawDescOnce.Do(func() {
-		file_model_delete_secret_response_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_model_delete_secret_response_proto_rawDesc), len(file_model_delete_secret_response_proto_rawDesc)))
-	})
-	return file_model_delete_secret_response_proto_rawDescData
-}
+	"\amessage\x18\x01 \x01(\tR\amessageB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
 
 var file_model_delete_secret_response_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_model_delete_secret_response_proto_goTypes = []any{

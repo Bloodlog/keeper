@@ -22,10 +22,9 @@ func NewRemoteAuthService(client pb.AuthServiceClient) RemoteAuthService {
 }
 
 func (s *remoteAuthService) Register(ctx context.Context, req dto.RegisterUser) (string, error) {
-	requestDto := &pbModel.RegisterRequest{
-		Login:    &req.Login,
-		Password: &req.Password,
-	}
+	requestDto := &pbModel.RegisterRequest{}
+	requestDto.SetLogin(req.Login)
+	requestDto.SetPassword(req.Password)
 	resp, err := s.client.Register(ctx, requestDto)
 	if err != nil {
 		return "", fmt.Errorf("register error: %w", err)
@@ -39,10 +38,9 @@ func (s *remoteAuthService) Register(ctx context.Context, req dto.RegisterUser) 
 }
 
 func (s *remoteAuthService) Login(ctx context.Context, req dto.LoginUser) (string, error) {
-	requestDto := &pbModel.LoginRequest{
-		Login:    &req.Login,
-		Password: &req.Password,
-	}
+	requestDto := &pbModel.LoginRequest{}
+	requestDto.SetLogin(req.Login)
+	requestDto.SetPassword(req.Password)
 	resp, err := s.client.Login(ctx, requestDto)
 	if err != nil {
 		return "", fmt.Errorf("login error: %w", err)

@@ -8,11 +8,11 @@ package model
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	_ "google.golang.org/protobuf/types/gofeaturespb"
 )
 
 const (
@@ -23,12 +23,14 @@ const (
 )
 
 type RegisterResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       *bool                  `protobuf:"varint,1,opt,name=success" json:"success,omitempty"`
-	Message       *string                `protobuf:"bytes,2,opt,name=message" json:"message,omitempty"`
-	Token         *string                `protobuf:"bytes,3,opt,name=token" json:"token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Success     bool                   `protobuf:"varint,1,opt,name=success"`
+	xxx_hidden_Message     *string                `protobuf:"bytes,2,opt,name=message"`
+	xxx_hidden_Token       *string                `protobuf:"bytes,3,opt,name=token"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *RegisterResponse) Reset() {
@@ -56,53 +58,120 @@ func (x *RegisterResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RegisterResponse.ProtoReflect.Descriptor instead.
-func (*RegisterResponse) Descriptor() ([]byte, []int) {
-	return file_model_register_response_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *RegisterResponse) GetSuccess() bool {
-	if x != nil && x.Success != nil {
-		return *x.Success
+	if x != nil {
+		return x.xxx_hidden_Success
 	}
 	return false
 }
 
 func (x *RegisterResponse) GetMessage() string {
-	if x != nil && x.Message != nil {
-		return *x.Message
+	if x != nil {
+		if x.xxx_hidden_Message != nil {
+			return *x.xxx_hidden_Message
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *RegisterResponse) GetToken() string {
-	if x != nil && x.Token != nil {
-		return *x.Token
+	if x != nil {
+		if x.xxx_hidden_Token != nil {
+			return *x.xxx_hidden_Token
+		}
+		return ""
 	}
 	return ""
+}
+
+func (x *RegisterResponse) SetSuccess(v bool) {
+	x.xxx_hidden_Success = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 3)
+}
+
+func (x *RegisterResponse) SetMessage(v string) {
+	x.xxx_hidden_Message = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 1, 3)
+}
+
+func (x *RegisterResponse) SetToken(v string) {
+	x.xxx_hidden_Token = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 2, 3)
+}
+
+func (x *RegisterResponse) HasSuccess() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *RegisterResponse) HasMessage() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 1)
+}
+
+func (x *RegisterResponse) HasToken() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 2)
+}
+
+func (x *RegisterResponse) ClearSuccess() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Success = false
+}
+
+func (x *RegisterResponse) ClearMessage() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 1)
+	x.xxx_hidden_Message = nil
+}
+
+func (x *RegisterResponse) ClearToken() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 2)
+	x.xxx_hidden_Token = nil
+}
+
+type RegisterResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Success *bool
+	Message *string
+	Token   *string
+}
+
+func (b0 RegisterResponse_builder) Build() *RegisterResponse {
+	m0 := &RegisterResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Success != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 3)
+		x.xxx_hidden_Success = *b.Success
+	}
+	if b.Message != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 1, 3)
+		x.xxx_hidden_Message = b.Message
+	}
+	if b.Token != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 2, 3)
+		x.xxx_hidden_Token = b.Token
+	}
+	return m0
 }
 
 var File_model_register_response_proto protoreflect.FileDescriptor
 
 const file_model_register_response_proto_rawDesc = "" +
 	"\n" +
-	"\x1dmodel/register_response.proto\x12\x17keeper.go.grpc.v1.model\"\\\n" +
+	"\x1dmodel/register_response.proto\x12\x17keeper.go.grpc.v1.model\x1a!google/protobuf/go_features.proto\"\\\n" +
 	"\x10RegisterResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x14\n" +
-	"\x05token\x18\x03 \x01(\tR\x05tokenB Z\x1ekeeper/internal/proto/v1/modelb\beditionsp\xe8\a"
-
-var (
-	file_model_register_response_proto_rawDescOnce sync.Once
-	file_model_register_response_proto_rawDescData []byte
-)
-
-func file_model_register_response_proto_rawDescGZIP() []byte {
-	file_model_register_response_proto_rawDescOnce.Do(func() {
-		file_model_register_response_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_model_register_response_proto_rawDesc), len(file_model_register_response_proto_rawDesc)))
-	})
-	return file_model_register_response_proto_rawDescData
-}
+	"\x05token\x18\x03 \x01(\tR\x05tokenB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
 
 var file_model_register_response_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_model_register_response_proto_goTypes = []any{

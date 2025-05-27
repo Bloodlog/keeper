@@ -8,11 +8,11 @@ package model
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	_ "google.golang.org/protobuf/types/gofeaturespb"
 )
 
 const (
@@ -23,10 +23,10 @@ const (
 )
 
 type ListSecretPathsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Paths         []string               `protobuf:"bytes,1,rep,name=paths" json:"paths,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Paths []string               `protobuf:"bytes,1,rep,name=paths"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ListSecretPathsResponse) Reset() {
@@ -54,37 +54,38 @@ func (x *ListSecretPathsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListSecretPathsResponse.ProtoReflect.Descriptor instead.
-func (*ListSecretPathsResponse) Descriptor() ([]byte, []int) {
-	return file_model_list_secrets_response_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ListSecretPathsResponse) GetPaths() []string {
 	if x != nil {
-		return x.Paths
+		return x.xxx_hidden_Paths
 	}
 	return nil
+}
+
+func (x *ListSecretPathsResponse) SetPaths(v []string) {
+	x.xxx_hidden_Paths = v
+}
+
+type ListSecretPathsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Paths []string
+}
+
+func (b0 ListSecretPathsResponse_builder) Build() *ListSecretPathsResponse {
+	m0 := &ListSecretPathsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.xxx_hidden_Paths = b.Paths
+	return m0
 }
 
 var File_model_list_secrets_response_proto protoreflect.FileDescriptor
 
 const file_model_list_secrets_response_proto_rawDesc = "" +
 	"\n" +
-	"!model/list_secrets_response.proto\x12\x17keeper.go.grpc.v1.model\"/\n" +
+	"!model/list_secrets_response.proto\x12\x17keeper.go.grpc.v1.model\x1a!google/protobuf/go_features.proto\"/\n" +
 	"\x17ListSecretPathsResponse\x12\x14\n" +
-	"\x05paths\x18\x01 \x03(\tR\x05pathsB Z\x1ekeeper/internal/proto/v1/modelb\beditionsp\xe8\a"
-
-var (
-	file_model_list_secrets_response_proto_rawDescOnce sync.Once
-	file_model_list_secrets_response_proto_rawDescData []byte
-)
-
-func file_model_list_secrets_response_proto_rawDescGZIP() []byte {
-	file_model_list_secrets_response_proto_rawDescOnce.Do(func() {
-		file_model_list_secrets_response_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_model_list_secrets_response_proto_rawDesc), len(file_model_list_secrets_response_proto_rawDesc)))
-	})
-	return file_model_list_secrets_response_proto_rawDescData
-}
+	"\x05paths\x18\x01 \x03(\tR\x05pathsB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
 
 var file_model_list_secrets_response_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_model_list_secrets_response_proto_goTypes = []any{

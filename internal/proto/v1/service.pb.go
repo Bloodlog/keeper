@@ -13,6 +13,7 @@ import (
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	_ "google.golang.org/protobuf/types/gofeaturespb"
 )
 
 const (
@@ -26,7 +27,7 @@ var File_service_proto protoreflect.FileDescriptor
 
 const file_service_proto_rawDesc = "" +
 	"\n" +
-	"\rservice.proto\x12\x11keeper.go.grpc.v1\x1a\x1cmodel/register_request.proto\x1a\x1dmodel/register_response.proto\x1a\x19model/login_request.proto\x1a\x1amodel/login_response.proto\x1a\x12model/secret.proto\x1a\x1emodel/get_secret_request.proto\x1a!model/delete_secret_request.proto\x1a\"model/delete_secret_response.proto\x1a model/list_secrets_request.proto\x1a!model/list_secrets_response.proto2\xc6\x01\n" +
+	"\rservice.proto\x12\x11keeper.go.grpc.v1\x1a\x1cmodel/register_request.proto\x1a\x1dmodel/register_response.proto\x1a\x19model/login_request.proto\x1a\x1amodel/login_response.proto\x1a!google/protobuf/go_features.proto\x1a\x12model/secret.proto\x1a\x1emodel/get_secret_request.proto\x1a!model/delete_secret_request.proto\x1a\"model/delete_secret_response.proto\x1a model/list_secrets_request.proto\x1a!model/list_secrets_response.proto2\xc6\x01\n" +
 	"\vAuthService\x12_\n" +
 	"\bRegister\x12(.keeper.go.grpc.v1.model.RegisterRequest\x1a).keeper.go.grpc.v1.model.RegisterResponse\x12V\n" +
 	"\x05Login\x12%.keeper.go.grpc.v1.model.LoginRequest\x1a&.keeper.go.grpc.v1.model.LoginResponse2\xfc\x05\n" +
@@ -38,7 +39,7 @@ const file_service_proto_rawDesc = "" +
 	"\fDeleteSecret\x12,.keeper.go.grpc.v1.model.DeleteSecretRequest\x1a-.keeper.go.grpc.v1.model.DeleteSecretResponse\x12l\n" +
 	"\rDestroySecret\x12,.keeper.go.grpc.v1.model.DeleteSecretRequest\x1a-.keeper.go.grpc.v1.model.DeleteSecretResponse\x12m\n" +
 	"\x0eDeleteMetadata\x12,.keeper.go.grpc.v1.model.DeleteSecretRequest\x1a-.keeper.go.grpc.v1.model.DeleteSecretResponse\x12o\n" +
-	"\x0eUndeleteSecret\x12..keeper.go.grpc.v1.model.UndeleteSecretRequest\x1a-.keeper.go.grpc.v1.model.DeleteSecretResponseB\x1aZ\x18keeper/internal/proto/v1b\beditionsp\xe8\a"
+	"\x0eUndeleteSecret\x12..keeper.go.grpc.v1.model.UndeleteSecretRequest\x1a-.keeper.go.grpc.v1.model.DeleteSecretResponseB\"Z\x18keeper/internal/proto/v1\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
 
 var file_service_proto_goTypes = []any{
 	(*model.RegisterRequest)(nil),         // 0: keeper.go.grpc.v1.model.RegisterRequest

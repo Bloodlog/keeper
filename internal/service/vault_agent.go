@@ -6,7 +6,6 @@ import (
 	"keeper/internal/dto"
 	pb "keeper/internal/proto/v1"
 	pbModel "keeper/internal/proto/v1/model"
-	"keeper/internal/util"
 	"time"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -31,10 +30,9 @@ func NewRemoteVaultService(client pb.DataServiceClient) RemoteVaultService {
 }
 
 func (s *remoteVaultService) GetSecret(ctx context.Context, token string, path string) (*dto.AgentGetSecret, error) {
-	pbReq := &pbModel.GetSecretRequest{
-		Token: util.Ptr(token),
-		Path:  util.Ptr(path),
-	}
+	pbReq := &pbModel.GetSecretRequest{}
+	pbReq.SetToken(token)
+	pbReq.SetPath(path)
 	resp, err := s.client.GetSecret(ctx, pbReq)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get secret: %w", err)
@@ -58,9 +56,8 @@ func (s *remoteVaultService) GetSecret(ctx context.Context, token string, path s
 }
 
 func (s *remoteVaultService) ListSecretPaths(ctx context.Context, token string) ([]string, error) {
-	req := &pbModel.ListSecretPathsRequest{
-		Token: util.Ptr(token),
-	}
+	req := &pbModel.ListSecretPathsRequest{}
+	req.SetToken(token)
 	resp, err := s.client.ListSecrets(ctx, req)
 	if err != nil {
 		return nil, fmt.Errorf("failed to list secrets: %w", err)
@@ -71,13 +68,12 @@ func (s *remoteVaultService) ListSecretPaths(ctx context.Context, token string) 
 }
 
 func (s *remoteVaultService) SaveSecret(ctx context.Context, req *dto.AgentCreateSecret) error {
-	pbReq := &pbModel.WriteSecret{
-		Token:       util.Ptr(req.Token),
-		Path:        util.Ptr(req.Path),
-		Description: util.Ptr(req.Description),
-		Value:       req.Payload,
-		ExpiredAt:   timestamppb.New(req.ExpiredAt),
-	}
+	pbReq := &pbModel.WriteSecret{}
+	pbReq.SetToken(req.Token)
+	pbReq.SetPath(req.Path)
+	pbReq.SetDescription(req.Description)
+	pbReq.SetValue(req.Payload)
+	pbReq.SetExpiredAt(timestamppb.New(req.ExpiredAt))
 
 	_, err := s.client.SaveSecret(ctx, pbReq)
 	if err != nil {
@@ -87,10 +83,9 @@ func (s *remoteVaultService) SaveSecret(ctx context.Context, req *dto.AgentCreat
 }
 
 func (s *remoteVaultService) DeleteSecret(ctx context.Context, token string, path string) error {
-	pbReq := &pbModel.DeleteSecretRequest{
-		Token: util.Ptr(token),
-		Path:  util.Ptr(path),
-	}
+	pbReq := &pbModel.DeleteSecretRequest{}
+	pbReq.SetToken(token)
+	pbReq.SetPath(path)
 	_, err := s.client.DeleteSecret(ctx, pbReq)
 	if err != nil {
 		return fmt.Errorf("failed to delete secret: %w", err)
@@ -99,10 +94,9 @@ func (s *remoteVaultService) DeleteSecret(ctx context.Context, token string, pat
 }
 
 func (s *remoteVaultService) DestroySecret(ctx context.Context, token string, path string) error {
-	pbReq := &pbModel.DeleteSecretRequest{
-		Token: util.Ptr(token),
-		Path:  util.Ptr(path),
-	}
+	pbReq := &pbModel.DeleteSecretRequest{}
+	pbReq.SetToken(token)
+	pbReq.SetPath(path)
 	_, err := s.client.DestroySecret(ctx, pbReq)
 	if err != nil {
 		return fmt.Errorf("failed to destroy secret: %w", err)
@@ -111,10 +105,9 @@ func (s *remoteVaultService) DestroySecret(ctx context.Context, token string, pa
 }
 
 func (s *remoteVaultService) DeleteMetadata(ctx context.Context, token string, path string) error {
-	pbReq := &pbModel.DeleteSecretRequest{
-		Token: util.Ptr(token),
-		Path:  util.Ptr(path),
-	}
+	pbReq := &pbModel.DeleteSecretRequest{}
+	pbReq.SetToken(token)
+	pbReq.SetPath(path)
 	_, err := s.client.DeleteMetadata(ctx, pbReq)
 	if err != nil {
 		return fmt.Errorf("failed to delete metadata secret: %w", err)
@@ -123,11 +116,10 @@ func (s *remoteVaultService) DeleteMetadata(ctx context.Context, token string, p
 }
 
 func (s *remoteVaultService) UndeleteSecret(ctx context.Context, token string, path string, version int64) error {
-	pbReq := &pbModel.UndeleteSecretRequest{
-		Token:   util.Ptr(token),
-		Path:    util.Ptr(path),
-		Version: util.Ptr(version),
-	}
+	pbReq := &pbModel.UndeleteSecretRequest{}
+	pbReq.SetToken(token)
+	pbReq.SetPath(path)
+	pbReq.SetVersion(version)
 	_, err := s.client.UndeleteSecret(ctx, pbReq)
 	if err != nil {
 		return fmt.Errorf("failed to undelete secret: %w", err)

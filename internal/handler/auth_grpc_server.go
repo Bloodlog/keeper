@@ -8,7 +8,6 @@ import (
 	pb "keeper/internal/proto/v1"
 	pbModel "keeper/internal/proto/v1/model"
 	"keeper/internal/service"
-	"keeper/internal/util"
 )
 
 type AuthServerHandler struct {
@@ -37,11 +36,12 @@ func (s *AuthServerHandler) Register(
 		return nil, fmt.Errorf("failed to register user: %w", err)
 	}
 
-	return &pbModel.RegisterResponse{
-		Success: util.Ptr(true),
-		Message: util.Ptr("Register successful."),
-		Token:   &token.Token,
-	}, nil
+	resp := &pbModel.RegisterResponse{}
+	resp.SetSuccess(true)
+	resp.SetMessage("Register successful.")
+	resp.SetToken(token.Token)
+
+	return resp, nil
 }
 
 func (s *AuthServerHandler) Login(
@@ -57,9 +57,10 @@ func (s *AuthServerHandler) Login(
 		return nil, fmt.Errorf("failed to login: %w", err)
 	}
 
-	return &pbModel.LoginResponse{
-		Success: util.Ptr(true),
-		Message: util.Ptr("Login successful."),
-		Token:   &token.Token,
-	}, nil
+	resp := &pbModel.LoginResponse{}
+	resp.SetSuccess(true)
+	resp.SetMessage("Login successful.")
+	resp.SetToken(token.Token)
+
+	return resp, nil
 }

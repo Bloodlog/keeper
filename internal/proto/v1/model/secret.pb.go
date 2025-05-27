@@ -8,11 +8,11 @@ package model
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	_ "google.golang.org/protobuf/types/gofeaturespb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -24,14 +24,16 @@ const (
 )
 
 type WriteSecret struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Token         *string                `protobuf:"bytes,1,opt,name=token" json:"token,omitempty"`
-	Path          *string                `protobuf:"bytes,2,opt,name=path" json:"path,omitempty"`
-	ExpiredAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=expired_at,json=expiredAt" json:"expired_at,omitempty"`
-	Description   *string                `protobuf:"bytes,4,opt,name=description" json:"description,omitempty"`
-	Value         []byte                 `protobuf:"bytes,5,opt,name=value" json:"value,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Token       *string                `protobuf:"bytes,1,opt,name=token"`
+	xxx_hidden_Path        *string                `protobuf:"bytes,2,opt,name=path"`
+	xxx_hidden_ExpiredAt   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=expired_at,json=expiredAt"`
+	xxx_hidden_Description *string                `protobuf:"bytes,4,opt,name=description"`
+	xxx_hidden_Value       []byte                 `protobuf:"bytes,5,opt,name=value"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *WriteSecret) Reset() {
@@ -59,52 +61,178 @@ func (x *WriteSecret) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WriteSecret.ProtoReflect.Descriptor instead.
-func (*WriteSecret) Descriptor() ([]byte, []int) {
-	return file_model_secret_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *WriteSecret) GetToken() string {
-	if x != nil && x.Token != nil {
-		return *x.Token
+	if x != nil {
+		if x.xxx_hidden_Token != nil {
+			return *x.xxx_hidden_Token
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *WriteSecret) GetPath() string {
-	if x != nil && x.Path != nil {
-		return *x.Path
+	if x != nil {
+		if x.xxx_hidden_Path != nil {
+			return *x.xxx_hidden_Path
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *WriteSecret) GetExpiredAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.ExpiredAt
+		return x.xxx_hidden_ExpiredAt
 	}
 	return nil
 }
 
 func (x *WriteSecret) GetDescription() string {
-	if x != nil && x.Description != nil {
-		return *x.Description
+	if x != nil {
+		if x.xxx_hidden_Description != nil {
+			return *x.xxx_hidden_Description
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *WriteSecret) GetValue() []byte {
 	if x != nil {
-		return x.Value
+		return x.xxx_hidden_Value
 	}
 	return nil
 }
 
+func (x *WriteSecret) SetToken(v string) {
+	x.xxx_hidden_Token = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 5)
+}
+
+func (x *WriteSecret) SetPath(v string) {
+	x.xxx_hidden_Path = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 1, 5)
+}
+
+func (x *WriteSecret) SetExpiredAt(v *timestamppb.Timestamp) {
+	x.xxx_hidden_ExpiredAt = v
+}
+
+func (x *WriteSecret) SetDescription(v string) {
+	x.xxx_hidden_Description = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 3, 5)
+}
+
+func (x *WriteSecret) SetValue(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.xxx_hidden_Value = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 4, 5)
+}
+
+func (x *WriteSecret) HasToken() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *WriteSecret) HasPath() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 1)
+}
+
+func (x *WriteSecret) HasExpiredAt() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_ExpiredAt != nil
+}
+
+func (x *WriteSecret) HasDescription() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 3)
+}
+
+func (x *WriteSecret) HasValue() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 4)
+}
+
+func (x *WriteSecret) ClearToken() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Token = nil
+}
+
+func (x *WriteSecret) ClearPath() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 1)
+	x.xxx_hidden_Path = nil
+}
+
+func (x *WriteSecret) ClearExpiredAt() {
+	x.xxx_hidden_ExpiredAt = nil
+}
+
+func (x *WriteSecret) ClearDescription() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 3)
+	x.xxx_hidden_Description = nil
+}
+
+func (x *WriteSecret) ClearValue() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 4)
+	x.xxx_hidden_Value = nil
+}
+
+type WriteSecret_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Token       *string
+	Path        *string
+	ExpiredAt   *timestamppb.Timestamp
+	Description *string
+	Value       []byte
+}
+
+func (b0 WriteSecret_builder) Build() *WriteSecret {
+	m0 := &WriteSecret{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Token != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 5)
+		x.xxx_hidden_Token = b.Token
+	}
+	if b.Path != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 1, 5)
+		x.xxx_hidden_Path = b.Path
+	}
+	x.xxx_hidden_ExpiredAt = b.ExpiredAt
+	if b.Description != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 3, 5)
+		x.xxx_hidden_Description = b.Description
+	}
+	if b.Value != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 4, 5)
+		x.xxx_hidden_Value = b.Value
+	}
+	return m0
+}
+
 type SaveSecretResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       *bool                  `protobuf:"varint,1,opt,name=success" json:"success,omitempty"`
-	Message       *string                `protobuf:"bytes,2,opt,name=message" json:"message,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Success     bool                   `protobuf:"varint,1,opt,name=success"`
+	xxx_hidden_Message     *string                `protobuf:"bytes,2,opt,name=message"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *SaveSecretResponse) Reset() {
@@ -132,36 +260,92 @@ func (x *SaveSecretResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SaveSecretResponse.ProtoReflect.Descriptor instead.
-func (*SaveSecretResponse) Descriptor() ([]byte, []int) {
-	return file_model_secret_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *SaveSecretResponse) GetSuccess() bool {
-	if x != nil && x.Success != nil {
-		return *x.Success
+	if x != nil {
+		return x.xxx_hidden_Success
 	}
 	return false
 }
 
 func (x *SaveSecretResponse) GetMessage() string {
-	if x != nil && x.Message != nil {
-		return *x.Message
+	if x != nil {
+		if x.xxx_hidden_Message != nil {
+			return *x.xxx_hidden_Message
+		}
+		return ""
 	}
 	return ""
 }
 
+func (x *SaveSecretResponse) SetSuccess(v bool) {
+	x.xxx_hidden_Success = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 2)
+}
+
+func (x *SaveSecretResponse) SetMessage(v string) {
+	x.xxx_hidden_Message = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 1, 2)
+}
+
+func (x *SaveSecretResponse) HasSuccess() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *SaveSecretResponse) HasMessage() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 1)
+}
+
+func (x *SaveSecretResponse) ClearSuccess() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Success = false
+}
+
+func (x *SaveSecretResponse) ClearMessage() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 1)
+	x.xxx_hidden_Message = nil
+}
+
+type SaveSecretResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Success *bool
+	Message *string
+}
+
+func (b0 SaveSecretResponse_builder) Build() *SaveSecretResponse {
+	m0 := &SaveSecretResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Success != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 2)
+		x.xxx_hidden_Success = *b.Success
+	}
+	if b.Message != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 1, 2)
+		x.xxx_hidden_Message = b.Message
+	}
+	return m0
+}
+
 type SecretResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Path          *string                `protobuf:"bytes,2,opt,name=path" json:"path,omitempty"`
-	ExpiredAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=expired_at,json=expiredAt" json:"expired_at,omitempty"`
-	Description   *string                `protobuf:"bytes,4,opt,name=description" json:"description,omitempty"`
-	Value         []byte                 `protobuf:"bytes,5,opt,name=value" json:"value,omitempty"`
-	Version       *int64                 `protobuf:"varint,6,opt,name=version" json:"version,omitempty"`
-	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=deleted_at,json=deletedAt" json:"deleted_at,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt" json:"created_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Path        *string                `protobuf:"bytes,2,opt,name=path"`
+	xxx_hidden_ExpiredAt   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=expired_at,json=expiredAt"`
+	xxx_hidden_Description *string                `protobuf:"bytes,4,opt,name=description"`
+	xxx_hidden_Value       []byte                 `protobuf:"bytes,5,opt,name=value"`
+	xxx_hidden_Version     int64                  `protobuf:"varint,6,opt,name=version"`
+	xxx_hidden_DeletedAt   *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=deleted_at,json=deletedAt"`
+	xxx_hidden_CreatedAt   *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *SecretResponse) Reset() {
@@ -189,65 +373,220 @@ func (x *SecretResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SecretResponse.ProtoReflect.Descriptor instead.
-func (*SecretResponse) Descriptor() ([]byte, []int) {
-	return file_model_secret_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *SecretResponse) GetPath() string {
-	if x != nil && x.Path != nil {
-		return *x.Path
+	if x != nil {
+		if x.xxx_hidden_Path != nil {
+			return *x.xxx_hidden_Path
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *SecretResponse) GetExpiredAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.ExpiredAt
+		return x.xxx_hidden_ExpiredAt
 	}
 	return nil
 }
 
 func (x *SecretResponse) GetDescription() string {
-	if x != nil && x.Description != nil {
-		return *x.Description
+	if x != nil {
+		if x.xxx_hidden_Description != nil {
+			return *x.xxx_hidden_Description
+		}
+		return ""
 	}
 	return ""
 }
 
 func (x *SecretResponse) GetValue() []byte {
 	if x != nil {
-		return x.Value
+		return x.xxx_hidden_Value
 	}
 	return nil
 }
 
 func (x *SecretResponse) GetVersion() int64 {
-	if x != nil && x.Version != nil {
-		return *x.Version
+	if x != nil {
+		return x.xxx_hidden_Version
 	}
 	return 0
 }
 
 func (x *SecretResponse) GetDeletedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.DeletedAt
+		return x.xxx_hidden_DeletedAt
 	}
 	return nil
 }
 
 func (x *SecretResponse) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.CreatedAt
+		return x.xxx_hidden_CreatedAt
 	}
 	return nil
+}
+
+func (x *SecretResponse) SetPath(v string) {
+	x.xxx_hidden_Path = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 7)
+}
+
+func (x *SecretResponse) SetExpiredAt(v *timestamppb.Timestamp) {
+	x.xxx_hidden_ExpiredAt = v
+}
+
+func (x *SecretResponse) SetDescription(v string) {
+	x.xxx_hidden_Description = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 2, 7)
+}
+
+func (x *SecretResponse) SetValue(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.xxx_hidden_Value = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 3, 7)
+}
+
+func (x *SecretResponse) SetVersion(v int64) {
+	x.xxx_hidden_Version = v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 4, 7)
+}
+
+func (x *SecretResponse) SetDeletedAt(v *timestamppb.Timestamp) {
+	x.xxx_hidden_DeletedAt = v
+}
+
+func (x *SecretResponse) SetCreatedAt(v *timestamppb.Timestamp) {
+	x.xxx_hidden_CreatedAt = v
+}
+
+func (x *SecretResponse) HasPath() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *SecretResponse) HasExpiredAt() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_ExpiredAt != nil
+}
+
+func (x *SecretResponse) HasDescription() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 2)
+}
+
+func (x *SecretResponse) HasValue() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 3)
+}
+
+func (x *SecretResponse) HasVersion() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 4)
+}
+
+func (x *SecretResponse) HasDeletedAt() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_DeletedAt != nil
+}
+
+func (x *SecretResponse) HasCreatedAt() bool {
+	if x == nil {
+		return false
+	}
+	return x.xxx_hidden_CreatedAt != nil
+}
+
+func (x *SecretResponse) ClearPath() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Path = nil
+}
+
+func (x *SecretResponse) ClearExpiredAt() {
+	x.xxx_hidden_ExpiredAt = nil
+}
+
+func (x *SecretResponse) ClearDescription() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 2)
+	x.xxx_hidden_Description = nil
+}
+
+func (x *SecretResponse) ClearValue() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 3)
+	x.xxx_hidden_Value = nil
+}
+
+func (x *SecretResponse) ClearVersion() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 4)
+	x.xxx_hidden_Version = 0
+}
+
+func (x *SecretResponse) ClearDeletedAt() {
+	x.xxx_hidden_DeletedAt = nil
+}
+
+func (x *SecretResponse) ClearCreatedAt() {
+	x.xxx_hidden_CreatedAt = nil
+}
+
+type SecretResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Path        *string
+	ExpiredAt   *timestamppb.Timestamp
+	Description *string
+	Value       []byte
+	Version     *int64
+	DeletedAt   *timestamppb.Timestamp
+	CreatedAt   *timestamppb.Timestamp
+}
+
+func (b0 SecretResponse_builder) Build() *SecretResponse {
+	m0 := &SecretResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Path != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 7)
+		x.xxx_hidden_Path = b.Path
+	}
+	x.xxx_hidden_ExpiredAt = b.ExpiredAt
+	if b.Description != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 2, 7)
+		x.xxx_hidden_Description = b.Description
+	}
+	if b.Value != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 3, 7)
+		x.xxx_hidden_Value = b.Value
+	}
+	if b.Version != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 4, 7)
+		x.xxx_hidden_Version = *b.Version
+	}
+	x.xxx_hidden_DeletedAt = b.DeletedAt
+	x.xxx_hidden_CreatedAt = b.CreatedAt
+	return m0
 }
 
 var File_model_secret_proto protoreflect.FileDescriptor
 
 const file_model_secret_proto_rawDesc = "" +
 	"\n" +
-	"\x12model/secret.proto\x12\x17keeper.go.grpc.v1.model\x1a\x1fgoogle/protobuf/timestamp.proto\"\xaa\x01\n" +
+	"\x12model/secret.proto\x12\x17keeper.go.grpc.v1.model\x1a\x1fgoogle/protobuf/timestamp.proto\x1a!google/protobuf/go_features.proto\"\xaa\x01\n" +
 	"\vWriteSecret\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\x129\n" +
@@ -268,19 +607,7 @@ const file_model_secret_proto_rawDesc = "" +
 	"\n" +
 	"deleted_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tdeletedAt\x129\n" +
 	"\n" +
-	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtB Z\x1ekeeper/internal/proto/v1/modelb\beditionsp\xe8\a"
-
-var (
-	file_model_secret_proto_rawDescOnce sync.Once
-	file_model_secret_proto_rawDescData []byte
-)
-
-func file_model_secret_proto_rawDescGZIP() []byte {
-	file_model_secret_proto_rawDescOnce.Do(func() {
-		file_model_secret_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_model_secret_proto_rawDesc), len(file_model_secret_proto_rawDesc)))
-	})
-	return file_model_secret_proto_rawDescData
-}
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
 
 var file_model_secret_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_model_secret_proto_goTypes = []any{
