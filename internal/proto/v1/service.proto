@@ -4,10 +4,8 @@ option go_package = "keeper/internal/proto/v1";
 
 package keeper.go.grpc.v1;
 
-import "model/register_request.proto";
-import "model/register_response.proto";
-import "model/login_request.proto";
-import "model/login_response.proto";
+import "model/register.proto";
+import "model/login.proto";
 import "google/protobuf/go_features.proto";
 option features.(pb.go).api_level = API_OPAQUE;
 
@@ -17,11 +15,10 @@ service AuthService {
 }
 
 import "model/secret.proto";
-import "model/get_secret_request.proto";
-import "model/delete_secret_request.proto";
-import "model/delete_secret_response.proto";
-import "model/list_secrets_request.proto";
-import "model/list_secrets_response.proto";
+import "model/get_secret.proto";
+import "model/delete_secret.proto";
+import "model/list_secrets.proto";
+
 
 service DataService {
   rpc GetSecret(model.GetSecretRequest) returns (model.SecretResponse);
@@ -31,4 +28,10 @@ service DataService {
   rpc DestroySecret(model.DeleteSecretRequest) returns (model.DeleteSecretResponse);
   rpc DeleteMetadata(model.DeleteSecretRequest) returns (model.DeleteSecretResponse);
   rpc UndeleteSecret(model.UndeleteSecretRequest) returns (model.DeleteSecretResponse);
+}
+
+import "model/upload.proto";
+
+service FileService {
+  rpc UploadFile(model.UploadFileRequest) returns (model.UploadFileResponse);
 }

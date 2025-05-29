@@ -16,6 +16,7 @@ type SecretVersion struct {
 	ExpiredAt  time.Time
 	CreatedAt  time.Time
 	DeletedAt  *time.Time
+	FilePath   *string
 	Value      []byte
 	MetadataID int64
 	Version    int64
@@ -26,6 +27,7 @@ type OneSecretVersionWithMetadata struct {
 	ExpiredAt   time.Time
 	CreatedAt   time.Time
 	DeletedAt   *time.Time
+	FilePath    *string
 	Path        string
 	Description string
 	Value       []byte

@@ -38,7 +38,7 @@ func (r *vaultRepository) GetByUserAndPath(
 	var secret entity.OneSecretVersionWithMetadata
 	query := `
 		SELECT sm.title, sm.expired_at, sm.description,
-			sv.content, sv.created_at, sv.version, sv.deleted_at
+			sv.content, sv.created_at, sv.version, sv.deleted_at, sv.file_path
 		FROM secrets_metadata sm
 		JOIN secret_versions sv ON sm.id = sv.metadata_id
 		WHERE sm.user_id = $1 AND sm.title = $2 AND sv.deleted_at IS NULL
@@ -46,7 +46,7 @@ func (r *vaultRepository) GetByUserAndPath(
 	`
 	err := r.Pool.QueryRow(ctx, query, userID, path).Scan(
 		&secret.Path, &secret.ExpiredAt, &secret.Description,
-		&secret.Value, &secret.CreatedAt, &secret.Version, &secret.DeletedAt,
+		&secret.Value, &secret.CreatedAt, &secret.Version, &secret.DeletedAt, &secret.FilePath,
 	)
 	if err != nil {
 		return secret, fmt.Errorf("failed to get secret: %w", err)
@@ -91,14 +91,14 @@ func (r *vaultRepository) SaveOrUpdate(ctx context.Context, secretMetadata *enti
 
 	var metadataID int64
 	metaUpsert := `
-		INSERT INTO secrets_metadata (user_id, title, expired_at, description)
-		VALUES ($1, $2, $3, $4)
+		INSERT INTO secrets_metadata (user_id, title, expired_at, description, file_path)
+		VALUES ($1, $2, $3, $4, $5)
 		ON CONFLICT (user_id, title) DO UPDATE
 		SET expired_at = EXCLUDED.expired_at, description = EXCLUDED.description, deleted_at = NULL
 		RETURNING id
 	`
 	err = tx.QueryRow(ctx, metaUpsert, secretMetadata.UserID, secretMetadata.Path,
-		secretMetadata.ExpiredAt, secretMetadata.Description).Scan(&metadataID)
+		secretMetadata.ExpiredAt, secretMetadata.Description, secretVersion.FilePath).Scan(&metadataID)
 	if err != nil {
 		return *secretMetadata, fmt.Errorf("failed to upsert metadata: %w", err)
 	}
@@ -140,7 +140,7 @@ func (r *vaultRepository) Delete(ctx context.Context, userID int64, path string)
 
 func (r *vaultRepository) DestroySecret(ctx context.Context, userID int64, path string) error {
 	query := `
-		UPDATE secret_versions SET destroyed = TRUE, content = '', deleted_at = NOW()
+		UPDATE secret_versions SET destroyed = TRUE, content = '', deleted_at = NOW(), file_path = ''
 		WHERE metadata_id = (SELECT id FROM secrets_metadata WHERE user_id = $1 AND title = $2)
 		AND destroyed = FALSE
 	`

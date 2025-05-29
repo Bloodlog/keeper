@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.29.3
-// source: model/list_secrets_request.proto
+// source: model/list_secrets.proto
 
 package model
 
@@ -33,7 +33,7 @@ type ListSecretPathsRequest struct {
 
 func (x *ListSecretPathsRequest) Reset() {
 	*x = ListSecretPathsRequest{}
-	mi := &file_model_list_secrets_request_proto_msgTypes[0]
+	mi := &file_model_list_secrets_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +45,7 @@ func (x *ListSecretPathsRequest) String() string {
 func (*ListSecretPathsRequest) ProtoMessage() {}
 
 func (x *ListSecretPathsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_model_list_secrets_request_proto_msgTypes[0]
+	mi := &file_model_list_secrets_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -100,19 +100,79 @@ func (b0 ListSecretPathsRequest_builder) Build() *ListSecretPathsRequest {
 	return m0
 }
 
-var File_model_list_secrets_request_proto protoreflect.FileDescriptor
-
-const file_model_list_secrets_request_proto_rawDesc = "" +
-	"\n" +
-	" model/list_secrets_request.proto\x12\x17keeper.go.grpc.v1.model\x1a!google/protobuf/go_features.proto\".\n" +
-	"\x16ListSecretPathsRequest\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05tokenB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
-
-var file_model_list_secrets_request_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_model_list_secrets_request_proto_goTypes = []any{
-	(*ListSecretPathsRequest)(nil), // 0: keeper.go.grpc.v1.model.ListSecretPathsRequest
+type ListSecretPathsResponse struct {
+	state            protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Paths []string               `protobuf:"bytes,1,rep,name=paths"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
-var file_model_list_secrets_request_proto_depIdxs = []int32{
+
+func (x *ListSecretPathsResponse) Reset() {
+	*x = ListSecretPathsResponse{}
+	mi := &file_model_list_secrets_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListSecretPathsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListSecretPathsResponse) ProtoMessage() {}
+
+func (x *ListSecretPathsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_model_list_secrets_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+func (x *ListSecretPathsResponse) GetPaths() []string {
+	if x != nil {
+		return x.xxx_hidden_Paths
+	}
+	return nil
+}
+
+func (x *ListSecretPathsResponse) SetPaths(v []string) {
+	x.xxx_hidden_Paths = v
+}
+
+type ListSecretPathsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Paths []string
+}
+
+func (b0 ListSecretPathsResponse_builder) Build() *ListSecretPathsResponse {
+	m0 := &ListSecretPathsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.xxx_hidden_Paths = b.Paths
+	return m0
+}
+
+var File_model_list_secrets_proto protoreflect.FileDescriptor
+
+const file_model_list_secrets_proto_rawDesc = "" +
+	"\n" +
+	"\x18model/list_secrets.proto\x12\x17keeper.go.grpc.v1.model\x1a!google/protobuf/go_features.proto\".\n" +
+	"\x16ListSecretPathsRequest\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"/\n" +
+	"\x17ListSecretPathsResponse\x12\x14\n" +
+	"\x05paths\x18\x01 \x03(\tR\x05pathsB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
+
+var file_model_list_secrets_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_model_list_secrets_proto_goTypes = []any{
+	(*ListSecretPathsRequest)(nil),  // 0: keeper.go.grpc.v1.model.ListSecretPathsRequest
+	(*ListSecretPathsResponse)(nil), // 1: keeper.go.grpc.v1.model.ListSecretPathsResponse
+}
+var file_model_list_secrets_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -120,26 +180,26 @@ var file_model_list_secrets_request_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_model_list_secrets_request_proto_init() }
-func file_model_list_secrets_request_proto_init() {
-	if File_model_list_secrets_request_proto != nil {
+func init() { file_model_list_secrets_proto_init() }
+func file_model_list_secrets_proto_init() {
+	if File_model_list_secrets_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_model_list_secrets_request_proto_rawDesc), len(file_model_list_secrets_request_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_model_list_secrets_proto_rawDesc), len(file_model_list_secrets_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_model_list_secrets_request_proto_goTypes,
-		DependencyIndexes: file_model_list_secrets_request_proto_depIdxs,
-		MessageInfos:      file_model_list_secrets_request_proto_msgTypes,
+		GoTypes:           file_model_list_secrets_proto_goTypes,
+		DependencyIndexes: file_model_list_secrets_proto_depIdxs,
+		MessageInfos:      file_model_list_secrets_proto_msgTypes,
 	}.Build()
-	File_model_list_secrets_request_proto = out.File
-	file_model_list_secrets_request_proto_goTypes = nil
-	file_model_list_secrets_request_proto_depIdxs = nil
+	File_model_list_secrets_proto = out.File
+	file_model_list_secrets_proto_goTypes = nil
+	file_model_list_secrets_proto_depIdxs = nil
 }

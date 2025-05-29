@@ -27,7 +27,7 @@ var File_service_proto protoreflect.FileDescriptor
 
 const file_service_proto_rawDesc = "" +
 	"\n" +
-	"\rservice.proto\x12\x11keeper.go.grpc.v1\x1a\x1cmodel/register_request.proto\x1a\x1dmodel/register_response.proto\x1a\x19model/login_request.proto\x1a\x1amodel/login_response.proto\x1a!google/protobuf/go_features.proto\x1a\x12model/secret.proto\x1a\x1emodel/get_secret_request.proto\x1a!model/delete_secret_request.proto\x1a\"model/delete_secret_response.proto\x1a model/list_secrets_request.proto\x1a!model/list_secrets_response.proto2\xc6\x01\n" +
+	"\rservice.proto\x12\x11keeper.go.grpc.v1\x1a\x14model/register.proto\x1a\x11model/login.proto\x1a!google/protobuf/go_features.proto\x1a\x12model/secret.proto\x1a\x16model/get_secret.proto\x1a\x19model/delete_secret.proto\x1a\x18model/list_secrets.proto\x1a\x12model/upload.proto2\xc6\x01\n" +
 	"\vAuthService\x12_\n" +
 	"\bRegister\x12(.keeper.go.grpc.v1.model.RegisterRequest\x1a).keeper.go.grpc.v1.model.RegisterResponse\x12V\n" +
 	"\x05Login\x12%.keeper.go.grpc.v1.model.LoginRequest\x1a&.keeper.go.grpc.v1.model.LoginResponse2\xfc\x05\n" +
@@ -39,7 +39,10 @@ const file_service_proto_rawDesc = "" +
 	"\fDeleteSecret\x12,.keeper.go.grpc.v1.model.DeleteSecretRequest\x1a-.keeper.go.grpc.v1.model.DeleteSecretResponse\x12l\n" +
 	"\rDestroySecret\x12,.keeper.go.grpc.v1.model.DeleteSecretRequest\x1a-.keeper.go.grpc.v1.model.DeleteSecretResponse\x12m\n" +
 	"\x0eDeleteMetadata\x12,.keeper.go.grpc.v1.model.DeleteSecretRequest\x1a-.keeper.go.grpc.v1.model.DeleteSecretResponse\x12o\n" +
-	"\x0eUndeleteSecret\x12..keeper.go.grpc.v1.model.UndeleteSecretRequest\x1a-.keeper.go.grpc.v1.model.DeleteSecretResponseB\"Z\x18keeper/internal/proto/v1\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
+	"\x0eUndeleteSecret\x12..keeper.go.grpc.v1.model.UndeleteSecretRequest\x1a-.keeper.go.grpc.v1.model.DeleteSecretResponse2t\n" +
+	"\vFileService\x12e\n" +
+	"\n" +
+	"UploadFile\x12*.keeper.go.grpc.v1.model.UploadFileRequest\x1a+.keeper.go.grpc.v1.model.UploadFileResponseB\"Z\x18keeper/internal/proto/v1\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
 
 var file_service_proto_goTypes = []any{
 	(*model.RegisterRequest)(nil),         // 0: keeper.go.grpc.v1.model.RegisterRequest
@@ -49,12 +52,14 @@ var file_service_proto_goTypes = []any{
 	(*model.WriteSecret)(nil),             // 4: keeper.go.grpc.v1.model.WriteSecret
 	(*model.DeleteSecretRequest)(nil),     // 5: keeper.go.grpc.v1.model.DeleteSecretRequest
 	(*model.UndeleteSecretRequest)(nil),   // 6: keeper.go.grpc.v1.model.UndeleteSecretRequest
-	(*model.RegisterResponse)(nil),        // 7: keeper.go.grpc.v1.model.RegisterResponse
-	(*model.LoginResponse)(nil),           // 8: keeper.go.grpc.v1.model.LoginResponse
-	(*model.SecretResponse)(nil),          // 9: keeper.go.grpc.v1.model.SecretResponse
-	(*model.ListSecretPathsResponse)(nil), // 10: keeper.go.grpc.v1.model.ListSecretPathsResponse
-	(*model.SaveSecretResponse)(nil),      // 11: keeper.go.grpc.v1.model.SaveSecretResponse
-	(*model.DeleteSecretResponse)(nil),    // 12: keeper.go.grpc.v1.model.DeleteSecretResponse
+	(*model.UploadFileRequest)(nil),       // 7: keeper.go.grpc.v1.model.UploadFileRequest
+	(*model.RegisterResponse)(nil),        // 8: keeper.go.grpc.v1.model.RegisterResponse
+	(*model.LoginResponse)(nil),           // 9: keeper.go.grpc.v1.model.LoginResponse
+	(*model.SecretResponse)(nil),          // 10: keeper.go.grpc.v1.model.SecretResponse
+	(*model.ListSecretPathsResponse)(nil), // 11: keeper.go.grpc.v1.model.ListSecretPathsResponse
+	(*model.SaveSecretResponse)(nil),      // 12: keeper.go.grpc.v1.model.SaveSecretResponse
+	(*model.DeleteSecretResponse)(nil),    // 13: keeper.go.grpc.v1.model.DeleteSecretResponse
+	(*model.UploadFileResponse)(nil),      // 14: keeper.go.grpc.v1.model.UploadFileResponse
 }
 var file_service_proto_depIdxs = []int32{
 	0,  // 0: keeper.go.grpc.v1.AuthService.Register:input_type -> keeper.go.grpc.v1.model.RegisterRequest
@@ -66,17 +71,19 @@ var file_service_proto_depIdxs = []int32{
 	5,  // 6: keeper.go.grpc.v1.DataService.DestroySecret:input_type -> keeper.go.grpc.v1.model.DeleteSecretRequest
 	5,  // 7: keeper.go.grpc.v1.DataService.DeleteMetadata:input_type -> keeper.go.grpc.v1.model.DeleteSecretRequest
 	6,  // 8: keeper.go.grpc.v1.DataService.UndeleteSecret:input_type -> keeper.go.grpc.v1.model.UndeleteSecretRequest
-	7,  // 9: keeper.go.grpc.v1.AuthService.Register:output_type -> keeper.go.grpc.v1.model.RegisterResponse
-	8,  // 10: keeper.go.grpc.v1.AuthService.Login:output_type -> keeper.go.grpc.v1.model.LoginResponse
-	9,  // 11: keeper.go.grpc.v1.DataService.GetSecret:output_type -> keeper.go.grpc.v1.model.SecretResponse
-	10, // 12: keeper.go.grpc.v1.DataService.ListSecrets:output_type -> keeper.go.grpc.v1.model.ListSecretPathsResponse
-	11, // 13: keeper.go.grpc.v1.DataService.SaveSecret:output_type -> keeper.go.grpc.v1.model.SaveSecretResponse
-	12, // 14: keeper.go.grpc.v1.DataService.DeleteSecret:output_type -> keeper.go.grpc.v1.model.DeleteSecretResponse
-	12, // 15: keeper.go.grpc.v1.DataService.DestroySecret:output_type -> keeper.go.grpc.v1.model.DeleteSecretResponse
-	12, // 16: keeper.go.grpc.v1.DataService.DeleteMetadata:output_type -> keeper.go.grpc.v1.model.DeleteSecretResponse
-	12, // 17: keeper.go.grpc.v1.DataService.UndeleteSecret:output_type -> keeper.go.grpc.v1.model.DeleteSecretResponse
-	9,  // [9:18] is the sub-list for method output_type
-	0,  // [0:9] is the sub-list for method input_type
+	7,  // 9: keeper.go.grpc.v1.FileService.UploadFile:input_type -> keeper.go.grpc.v1.model.UploadFileRequest
+	8,  // 10: keeper.go.grpc.v1.AuthService.Register:output_type -> keeper.go.grpc.v1.model.RegisterResponse
+	9,  // 11: keeper.go.grpc.v1.AuthService.Login:output_type -> keeper.go.grpc.v1.model.LoginResponse
+	10, // 12: keeper.go.grpc.v1.DataService.GetSecret:output_type -> keeper.go.grpc.v1.model.SecretResponse
+	11, // 13: keeper.go.grpc.v1.DataService.ListSecrets:output_type -> keeper.go.grpc.v1.model.ListSecretPathsResponse
+	12, // 14: keeper.go.grpc.v1.DataService.SaveSecret:output_type -> keeper.go.grpc.v1.model.SaveSecretResponse
+	13, // 15: keeper.go.grpc.v1.DataService.DeleteSecret:output_type -> keeper.go.grpc.v1.model.DeleteSecretResponse
+	13, // 16: keeper.go.grpc.v1.DataService.DestroySecret:output_type -> keeper.go.grpc.v1.model.DeleteSecretResponse
+	13, // 17: keeper.go.grpc.v1.DataService.DeleteMetadata:output_type -> keeper.go.grpc.v1.model.DeleteSecretResponse
+	13, // 18: keeper.go.grpc.v1.DataService.UndeleteSecret:output_type -> keeper.go.grpc.v1.model.DeleteSecretResponse
+	14, // 19: keeper.go.grpc.v1.FileService.UploadFile:output_type -> keeper.go.grpc.v1.model.UploadFileResponse
+	10, // [10:20] is the sub-list for method output_type
+	0,  // [0:10] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name
@@ -95,7 +102,7 @@ func file_service_proto_init() {
 			NumEnums:      0,
 			NumMessages:   0,
 			NumExtensions: 0,
-			NumServices:   2,
+			NumServices:   3,
 		},
 		GoTypes:           file_service_proto_goTypes,
 		DependencyIndexes: file_service_proto_depIdxs,

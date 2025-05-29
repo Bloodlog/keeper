@@ -1,0 +1,6 @@
+BEGIN TRANSACTION;
+
+ALTER TABLE secret_versions
+    DROP COLUMN file_path;
+
+COMMIT;

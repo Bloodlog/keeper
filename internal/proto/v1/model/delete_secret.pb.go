@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.29.3
-// source: model/delete_secret_request.proto
+// source: model/delete_secret.proto
 
 package model
 
@@ -34,7 +34,7 @@ type DeleteSecretRequest struct {
 
 func (x *DeleteSecretRequest) Reset() {
 	*x = DeleteSecretRequest{}
-	mi := &file_model_delete_secret_request_proto_msgTypes[0]
+	mi := &file_model_delete_secret_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -46,7 +46,7 @@ func (x *DeleteSecretRequest) String() string {
 func (*DeleteSecretRequest) ProtoMessage() {}
 
 func (x *DeleteSecretRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_model_delete_secret_request_proto_msgTypes[0]
+	mi := &file_model_delete_secret_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -146,7 +146,7 @@ type UndeleteSecretRequest struct {
 
 func (x *UndeleteSecretRequest) Reset() {
 	*x = UndeleteSecretRequest{}
-	mi := &file_model_delete_secret_request_proto_msgTypes[1]
+	mi := &file_model_delete_secret_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -158,7 +158,7 @@ func (x *UndeleteSecretRequest) String() string {
 func (*UndeleteSecretRequest) ProtoMessage() {}
 
 func (x *UndeleteSecretRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_model_delete_secret_request_proto_msgTypes[1]
+	mi := &file_model_delete_secret_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -274,25 +274,106 @@ func (b0 UndeleteSecretRequest_builder) Build() *UndeleteSecretRequest {
 	return m0
 }
 
-var File_model_delete_secret_request_proto protoreflect.FileDescriptor
+type DeleteSecretResponse struct {
+	state                  protoimpl.MessageState `protogen:"opaque.v1"`
+	xxx_hidden_Message     *string                `protobuf:"bytes,1,opt,name=message"`
+	XXX_raceDetectHookData protoimpl.RaceDetectHookData
+	XXX_presence           [1]uint32
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
 
-const file_model_delete_secret_request_proto_rawDesc = "" +
+func (x *DeleteSecretResponse) Reset() {
+	*x = DeleteSecretResponse{}
+	mi := &file_model_delete_secret_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteSecretResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteSecretResponse) ProtoMessage() {}
+
+func (x *DeleteSecretResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_model_delete_secret_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+func (x *DeleteSecretResponse) GetMessage() string {
+	if x != nil {
+		if x.xxx_hidden_Message != nil {
+			return *x.xxx_hidden_Message
+		}
+		return ""
+	}
+	return ""
+}
+
+func (x *DeleteSecretResponse) SetMessage(v string) {
+	x.xxx_hidden_Message = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 1)
+}
+
+func (x *DeleteSecretResponse) HasMessage() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
+}
+
+func (x *DeleteSecretResponse) ClearMessage() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
+	x.xxx_hidden_Message = nil
+}
+
+type DeleteSecretResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Message *string
+}
+
+func (b0 DeleteSecretResponse_builder) Build() *DeleteSecretResponse {
+	m0 := &DeleteSecretResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Message != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 1)
+		x.xxx_hidden_Message = b.Message
+	}
+	return m0
+}
+
+var File_model_delete_secret_proto protoreflect.FileDescriptor
+
+const file_model_delete_secret_proto_rawDesc = "" +
 	"\n" +
-	"!model/delete_secret_request.proto\x12\x17keeper.go.grpc.v1.model\x1a!google/protobuf/go_features.proto\"?\n" +
+	"\x19model/delete_secret.proto\x12\x17keeper.go.grpc.v1.model\x1a!google/protobuf/go_features.proto\"?\n" +
 	"\x13DeleteSecretRequest\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\"[\n" +
 	"\x15UndeleteSecretRequest\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\x12\x18\n" +
-	"\aversion\x18\x03 \x01(\x03R\aversionB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
+	"\aversion\x18\x03 \x01(\x03R\aversion\"0\n" +
+	"\x14DeleteSecretResponse\x12\x18\n" +
+	"\amessage\x18\x01 \x01(\tR\amessageB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
 
-var file_model_delete_secret_request_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_model_delete_secret_request_proto_goTypes = []any{
+var file_model_delete_secret_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_model_delete_secret_proto_goTypes = []any{
 	(*DeleteSecretRequest)(nil),   // 0: keeper.go.grpc.v1.model.DeleteSecretRequest
 	(*UndeleteSecretRequest)(nil), // 1: keeper.go.grpc.v1.model.UndeleteSecretRequest
+	(*DeleteSecretResponse)(nil),  // 2: keeper.go.grpc.v1.model.DeleteSecretResponse
 }
-var file_model_delete_secret_request_proto_depIdxs = []int32{
+var file_model_delete_secret_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -300,26 +381,26 @@ var file_model_delete_secret_request_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_model_delete_secret_request_proto_init() }
-func file_model_delete_secret_request_proto_init() {
-	if File_model_delete_secret_request_proto != nil {
+func init() { file_model_delete_secret_proto_init() }
+func file_model_delete_secret_proto_init() {
+	if File_model_delete_secret_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_model_delete_secret_request_proto_rawDesc), len(file_model_delete_secret_request_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_model_delete_secret_proto_rawDesc), len(file_model_delete_secret_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_model_delete_secret_request_proto_goTypes,
-		DependencyIndexes: file_model_delete_secret_request_proto_depIdxs,
-		MessageInfos:      file_model_delete_secret_request_proto_msgTypes,
+		GoTypes:           file_model_delete_secret_proto_goTypes,
+		DependencyIndexes: file_model_delete_secret_proto_depIdxs,
+		MessageInfos:      file_model_delete_secret_proto_msgTypes,
 	}.Build()
-	File_model_delete_secret_request_proto = out.File
-	file_model_delete_secret_request_proto_goTypes = nil
-	file_model_delete_secret_request_proto_depIdxs = nil
+	File_model_delete_secret_proto = out.File
+	file_model_delete_secret_proto_goTypes = nil
+	file_model_delete_secret_proto_depIdxs = nil
 }

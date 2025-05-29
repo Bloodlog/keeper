@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.29.3
-// source: model/get_secret_request.proto
+// source: model/get_secret.proto
 
 package model
 
@@ -34,7 +34,7 @@ type GetSecretRequest struct {
 
 func (x *GetSecretRequest) Reset() {
 	*x = GetSecretRequest{}
-	mi := &file_model_get_secret_request_proto_msgTypes[0]
+	mi := &file_model_get_secret_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -46,7 +46,7 @@ func (x *GetSecretRequest) String() string {
 func (*GetSecretRequest) ProtoMessage() {}
 
 func (x *GetSecretRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_model_get_secret_request_proto_msgTypes[0]
+	mi := &file_model_get_secret_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -133,20 +133,20 @@ func (b0 GetSecretRequest_builder) Build() *GetSecretRequest {
 	return m0
 }
 
-var File_model_get_secret_request_proto protoreflect.FileDescriptor
+var File_model_get_secret_proto protoreflect.FileDescriptor
 
-const file_model_get_secret_request_proto_rawDesc = "" +
+const file_model_get_secret_proto_rawDesc = "" +
 	"\n" +
-	"\x1emodel/get_secret_request.proto\x12\x17keeper.go.grpc.v1.model\x1a!google/protobuf/go_features.proto\"<\n" +
+	"\x16model/get_secret.proto\x12\x17keeper.go.grpc.v1.model\x1a!google/protobuf/go_features.proto\"<\n" +
 	"\x10GetSecretRequest\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04pathB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
 
-var file_model_get_secret_request_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_model_get_secret_request_proto_goTypes = []any{
+var file_model_get_secret_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_model_get_secret_proto_goTypes = []any{
 	(*GetSecretRequest)(nil), // 0: keeper.go.grpc.v1.model.GetSecretRequest
 }
-var file_model_get_secret_request_proto_depIdxs = []int32{
+var file_model_get_secret_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -154,26 +154,26 @@ var file_model_get_secret_request_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_model_get_secret_request_proto_init() }
-func file_model_get_secret_request_proto_init() {
-	if File_model_get_secret_request_proto != nil {
+func init() { file_model_get_secret_proto_init() }
+func file_model_get_secret_proto_init() {
+	if File_model_get_secret_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_model_get_secret_request_proto_rawDesc), len(file_model_get_secret_request_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_model_get_secret_proto_rawDesc), len(file_model_get_secret_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_model_get_secret_request_proto_goTypes,
-		DependencyIndexes: file_model_get_secret_request_proto_depIdxs,
-		MessageInfos:      file_model_get_secret_request_proto_msgTypes,
+		GoTypes:           file_model_get_secret_proto_goTypes,
+		DependencyIndexes: file_model_get_secret_proto_depIdxs,
+		MessageInfos:      file_model_get_secret_proto_msgTypes,
 	}.Build()
-	File_model_get_secret_request_proto = out.File
-	file_model_get_secret_request_proto_goTypes = nil
-	file_model_get_secret_request_proto_depIdxs = nil
+	File_model_get_secret_proto = out.File
+	file_model_get_secret_proto_goTypes = nil
+	file_model_get_secret_proto_depIdxs = nil
 }
