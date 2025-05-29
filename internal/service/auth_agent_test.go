@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRemoteAuthService_Register(t *testing.T) {
+func TestRemoteAuthService_Register_Login(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
@@ -19,10 +19,7 @@ func TestRemoteAuthService_Register(t *testing.T) {
 	svc := NewRemoteAuthService(mockClient)
 
 	ctx := t.Context()
-	req := dto.RegisterUser{
-		Login:    "user",
-		Password: "pass",
-	}
+	req := dto.RegisterUser{Login: "user", Password: "pass"}
 
 	t.Run("success", func(t *testing.T) {
 		resp := &pbModel.RegisterResponse{}
@@ -64,20 +61,8 @@ func TestRemoteAuthService_Register(t *testing.T) {
 		assert.Contains(t, err.Error(), "register failed")
 		assert.Empty(t, token)
 	})
-}
 
-func TestRemoteAuthService_Login(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	mockClient := mock.NewMockAuthServiceClient(ctrl)
-	svc := NewRemoteAuthService(mockClient)
-
-	ctx := t.Context()
-	req := dto.LoginUser{
-		Login:    "user",
-		Password: "pass",
-	}
+	reqLogin := dto.LoginUser{Login: "user", Password: "pass"}
 
 	t.Run("success", func(t *testing.T) {
 		resp := &pbModel.LoginResponse{}
@@ -88,7 +73,7 @@ func TestRemoteAuthService_Login(t *testing.T) {
 			Login(ctx, gomock.Any()).
 			Return(resp, nil)
 
-		token, err := svc.Login(ctx, req)
+		token, err := svc.Login(ctx, reqLogin)
 		assert.NoError(t, err)
 		assert.Equal(t, "token456", token)
 	})
@@ -98,7 +83,7 @@ func TestRemoteAuthService_Login(t *testing.T) {
 			Login(ctx, gomock.Any()).
 			Return(nil, errors.New("server unavailable"))
 
-		token, err := svc.Login(ctx, req)
+		token, err := svc.Login(ctx, reqLogin)
 		assert.Error(t, err)
 		assert.Contains(t, err.Error(), "login error")
 		assert.Empty(t, token)
@@ -113,7 +98,7 @@ func TestRemoteAuthService_Login(t *testing.T) {
 			Login(ctx, gomock.Any()).
 			Return(resp, nil)
 
-		token, err := svc.Login(ctx, req)
+		token, err := svc.Login(ctx, reqLogin)
 		assert.Error(t, err)
 		assert.Contains(t, err.Error(), "login failed")
 		assert.Empty(t, token)
