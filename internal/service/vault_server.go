@@ -23,24 +23,47 @@ type VaultService interface {
 type vaultService struct {
 	repo          repository.VaultRepositoryInterface
 	cryptoService CryptoService
+	fileRepo      repository.FileRepository
 }
 
-func NewVaultService(repo repository.VaultRepositoryInterface, cryptoService CryptoService) VaultService {
+func NewVaultService(
+	repo repository.VaultRepositoryInterface,
+	cryptoService CryptoService,
+	fileRepo repository.FileRepository,
+) VaultService {
 	return &vaultService{
 		repo:          repo,
 		cryptoService: cryptoService,
+		fileRepo:      fileRepo,
 	}
 }
 
-func (s *vaultService) GetSecret(ctx context.Context, userID int64, path string) (dto.DecryptedSecretResponse, error) {
+func (s *vaultService) GetSecret(
+	ctx context.Context,
+	userID int64,
+	path string,
+) (dto.DecryptedSecretResponse, error) {
 	secret, err := s.repo.GetByUserAndPath(ctx, userID, path)
 	if err != nil {
 		return dto.DecryptedSecretResponse{}, fmt.Errorf("failed to get secret: %w", err)
 	}
 
-	decrypted, err := s.cryptoService.Decode(secret.Value)
-	if err != nil {
-		return dto.DecryptedSecretResponse{}, fmt.Errorf("failed to decrypt secret: %w", err)
+	var decrypted []byte
+	if secret.FilePath != nil {
+		var file []byte
+		file, err = s.fileRepo.Load(ctx, *secret.FilePath)
+		if err != nil {
+			return dto.DecryptedSecretResponse{}, fmt.Errorf("failed to load secret: %w", err)
+		}
+		decrypted, err = s.cryptoService.Decode(file)
+		if err != nil {
+			return dto.DecryptedSecretResponse{}, fmt.Errorf("failed to decrypt secret data: %w", err)
+		}
+	} else {
+		decrypted, err = s.cryptoService.Decode(secret.Value)
+		if err != nil {
+			return dto.DecryptedSecretResponse{}, fmt.Errorf("failed to decrypt secret: %w", err)
+		}
 	}
 
 	return dto.DecryptedSecretResponse{
@@ -51,6 +74,7 @@ func (s *vaultService) GetSecret(ctx context.Context, userID int64, path string)
 		Data:        decrypted,
 		Version:     secret.Version,
 		DeletedAt:   secret.DeletedAt,
+		FilePath:    secret.FilePath,
 	}, nil
 }
 
@@ -68,6 +92,8 @@ func (s *vaultService) ListSecretsPaths(ctx context.Context, userID int64) ([]st
 }
 
 func (s *vaultService) SaveSecret(ctx context.Context, request *dto.ServerCreateSecret) error {
+	var secretVersion *entity.SecretVersion
+
 	encrypted, err := s.cryptoService.Encode(request.Payload)
 	if err != nil {
 		return fmt.Errorf("failed to encrypt secret: %w", err)
@@ -79,8 +105,24 @@ func (s *vaultService) SaveSecret(ctx context.Context, request *dto.ServerCreate
 		ExpiredAt:   request.ExpiredAt,
 		Description: request.Description,
 	}
-	secretVersion := &entity.SecretVersion{
-		Value: encrypted,
+	if request.FilePath != nil && s.fileRepo != nil {
+		err = s.fileRepo.Save(ctx, *request.FilePath, encrypted)
+		if err != nil {
+			return fmt.Errorf("failed to store file: %w", err)
+		}
+		placeholder, err := s.cryptoService.Encode([]byte(`{"status": "FILE-UPLOADED"}`))
+		if err != nil {
+			return fmt.Errorf("failed to encrypt file placeholder: %w", err)
+		}
+
+		secretVersion = &entity.SecretVersion{
+			Value:    placeholder,
+			FilePath: request.FilePath,
+		}
+	} else {
+		secretVersion = &entity.SecretVersion{
+			Value: encrypted,
+		}
 	}
 
 	_, err = s.repo.SaveOrUpdate(ctx, secretMetadata, secretVersion)

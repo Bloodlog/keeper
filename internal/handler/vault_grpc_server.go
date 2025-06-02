@@ -43,22 +43,32 @@ func (s *VaultServerHandler) GetSecret(
 		return nil, fmt.Errorf("failed to get secret: %w", err)
 	}
 
-	data, err := json.Marshal(secret.Data)
-	if err != nil {
-		return nil, fmt.Errorf("failed to marshal secret data: %w", err)
+	var value []byte
+	if secret.FilePath != nil {
+		value = secret.Data
+	} else {
+		value, err = json.Marshal(secret.Data)
+		if err != nil {
+			return nil, fmt.Errorf("failed to marshal secret data: %w", err)
+		}
 	}
 
 	var deletedAt *timestamppb.Timestamp
 	if secret.DeletedAt != nil {
 		deletedAt = timestamppb.New(*secret.DeletedAt)
 	}
+	var filePath string
+	if secret.FilePath != nil {
+		filePath = *secret.FilePath
+	}
 	resp := &pbModel.SecretResponse{}
 	resp.SetPath(secret.Path)
 	resp.SetDescription(secret.Description)
-	resp.SetValue(data)
+	resp.SetValue(value)
 	resp.SetExpiredAt(timestamppb.New(secret.ExpiredAt))
 	resp.SetVersion(secret.Version)
 	resp.SetDeletedAt(deletedAt)
+	resp.SetFilePath(filePath)
 
 	return resp, nil
 }
@@ -92,12 +102,18 @@ func (s *VaultServerHandler) SaveSecret(
 		return nil, fmt.Errorf(errorInvalidToken, err)
 	}
 
+	var filePath *string
+	if fp := req.GetFilePath(); fp != "" {
+		filePath = &fp
+	}
+
 	serverCreateSecretDTO := &dto.ServerCreateSecret{
 		UserID:      userID,
 		Path:        req.GetPath(),
 		Description: req.GetDescription(),
 		Payload:     req.GetValue(),
 		ExpiredAt:   req.GetExpiredAt().AsTime(),
+		FilePath:    filePath,
 	}
 
 	err = s.vaultService.SaveSecret(ctx, serverCreateSecretDTO)

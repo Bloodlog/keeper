@@ -3,7 +3,6 @@ package config
 import "time"
 
 type MainServerConfig struct {
-	Storage           Storage
 	GrpcServerConfig  GrpcServerConfig
 	BuildAgentsConfig BuildAgentsConfig
 	Database          DatabaseConfig
@@ -35,14 +34,12 @@ type DatabaseConfig struct {
 }
 
 type FileStorageConfig struct {
-	Address  string
-	Username string
-	Password string
-	Port     int
-}
-
-type Storage struct {
-	StorageType string
+	Address       string
+	BucketName    string
+	Username      string
+	Password      string
+	Port          int
+	URLExpiredTTL time.Duration
 }
 
 type SecurityConfig struct {
@@ -55,17 +52,21 @@ type SecurityConfig struct {
 
 func NewServerConfig() *MainServerConfig {
 	const (
-		httpAddress          = "127.0.0.1"
-		httpPORT             = 8080
-		grpcAddress          = "0.0.0.0"
-		grpcPORT             = 8081
-		dsn                  = "postgres://keeper:password@localhost:5432/keeper?sslmode=disable"
-		downloadDir          = "./build/clients"
-		URLPrefix            = "/downloads/"
-		secret               = "secret"
-		dataEncryptionKey    = "2fd36a2c3bcd3426f0fc92c84f8c56c1e91b40e372e3f1b739b1c1b0fa6fc457"
-		maxTokenTTL          = 24 * time.Hour
-		defaultSecretStorage = "database"
+		httpAddress        = "127.0.0.1"
+		httpPORT           = 8080
+		grpcAddress        = "0.0.0.0"
+		grpcPORT           = 8081
+		dsn                = "postgres://keeper:password@localhost:5432/keeper?sslmode=disable"
+		downloadDir        = "./build/clients"
+		URLPrefix          = "/downloads/"
+		secret             = "secret"
+		dataEncryptionKey  = "2fd36a2c3bcd3426f0fc92c84f8c56c1e91b40e372e3f1b739b1c1b0fa6fc457"
+		maxTokenTTL        = 24 * time.Hour
+		minioURLExpiredTTL = time.Minute * 15
+		minioAddress       = "minio-keeper"
+		minioPort          = 9000
+		minioUser          = "minioadmin"
+		minioPassword      = "minioadmin"
 	)
 
 	return &MainServerConfig{
@@ -95,13 +96,12 @@ func NewServerConfig() *MainServerConfig {
 			URLPrefix:   URLPrefix,
 		},
 		FileStorageConfig: FileStorageConfig{
-			Address:  httpAddress,
-			Port:     httpPORT,
-			Username: secret,
-			Password: dataEncryptionKey,
-		},
-		Storage: Storage{
-			StorageType: defaultSecretStorage,
+			Address:       minioAddress,
+			Port:          minioPort,
+			Username:      minioUser,
+			Password:      minioPassword,
+			BucketName:    "keeper",
+			URLExpiredTTL: minioURLExpiredTTL,
 		},
 	}
 }

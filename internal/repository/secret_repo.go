@@ -91,26 +91,31 @@ func (r *vaultRepository) SaveOrUpdate(ctx context.Context, secretMetadata *enti
 
 	var metadataID int64
 	metaUpsert := `
-		INSERT INTO secrets_metadata (user_id, title, expired_at, description, file_path)
-		VALUES ($1, $2, $3, $4, $5)
+		INSERT INTO secrets_metadata (user_id, title, expired_at, description)
+		VALUES ($1, $2, $3, $4)
 		ON CONFLICT (user_id, title) DO UPDATE
 		SET expired_at = EXCLUDED.expired_at, description = EXCLUDED.description, deleted_at = NULL
 		RETURNING id
 	`
 	err = tx.QueryRow(ctx, metaUpsert, secretMetadata.UserID, secretMetadata.Path,
-		secretMetadata.ExpiredAt, secretMetadata.Description, secretVersion.FilePath).Scan(&metadataID)
+		secretMetadata.ExpiredAt, secretMetadata.Description).Scan(&metadataID)
 	if err != nil {
 		return *secretMetadata, fmt.Errorf("failed to upsert metadata: %w", err)
 	}
 
 	versionInsert := `
-		INSERT INTO secret_versions (metadata_id, version, content)
-		SELECT $1, COALESCE(MAX(version), 0)+1, $2 
+		INSERT INTO secret_versions (metadata_id, version, content, file_path)
+		SELECT $1, COALESCE(MAX(version), 0) + 1, $2, $3
 		FROM secret_versions WHERE metadata_id = $1
 		RETURNING version, created_at
 	`
-	err = tx.QueryRow(ctx, versionInsert, metadataID,
-		secretVersion.Value).Scan(&secretVersion.Version, &secretVersion.CreatedAt)
+	err = tx.QueryRow(
+		ctx,
+		versionInsert,
+		metadataID,
+		secretVersion.Value,
+		secretVersion.FilePath,
+	).Scan(&secretVersion.Version, &secretVersion.CreatedAt)
 	if err != nil {
 		return *secretMetadata, fmt.Errorf("failed to insert version: %w", err)
 	}

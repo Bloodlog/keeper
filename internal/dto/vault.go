@@ -7,6 +7,7 @@ type AgentCreateSecret struct {
 	Token       string
 	Path        string
 	Description string
+	FilePath    *string
 	Payload     []byte
 }
 
@@ -16,6 +17,7 @@ type AgentGetSecret struct {
 	DeletedAt   *time.Time
 	Path        string
 	Description string
+	FilePath    *string
 	Payload     []byte
 	Version     int64
 }
@@ -24,6 +26,7 @@ type ServerCreateSecret struct {
 	ExpiredAt   time.Time
 	Path        string
 	Description string
+	FilePath    *string
 	Payload     []byte
 	UserID      int64
 }
@@ -34,6 +37,7 @@ type DecryptedSecretResponse struct {
 	DeletedAt   *time.Time
 	Path        string
 	Description string
+	FilePath    *string
 	Data        []byte
 	Version     int64
 }

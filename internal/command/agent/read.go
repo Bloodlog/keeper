@@ -69,6 +69,8 @@ var readCmd = &cobra.Command{
 			}
 			const separator1 = "%-16s %s\n"
 			const separator2 = "%-16s %v\n"
+			const separator3 = "%-12s %s\n"
+			const separator4 = "%-12s %v\n"
 
 			fmt.Println("====== Metadata ======")
 			fmt.Printf(separator1, "Key", "Value")
@@ -77,6 +79,21 @@ var readCmd = &cobra.Command{
 			fmt.Printf(separator1, "deletion_time", deletionTime)
 			fmt.Printf(separator2, "destroyed", destroyed)
 			fmt.Printf(separator2, "version", secret.Version)
+
+			if secret.FilePath != nil {
+				fmt.Printf(separator1, "Key", "Value")
+				fmt.Printf(separator1, "---", "-----")
+				fmt.Printf(separator4, *secret.FilePath, "FILE-UPLOADED")
+
+				if outFile != "" {
+					if err := os.WriteFile(outFile, secret.Payload, permissionOutFile); err != nil {
+						return fmt.Errorf("failed to write to file: %w", err)
+					}
+					fmt.Printf("\n✅ Secret written to file: %s\n", outFile)
+					return nil
+				}
+				return nil
+			}
 
 			var encoded string
 			if err := json.Unmarshal(secret.Payload, &encoded); err != nil {
@@ -101,9 +118,6 @@ var readCmd = &cobra.Command{
 				return fmt.Errorf("failed to decode JSON string payload: %w", err)
 			}
 
-			const separator3 = "%-12s %s\n"
-
-			const separator4 = "%-12s %v\n"
 			fmt.Println("\n====== Data ======")
 			fmt.Printf(separator3, "Key", "Value")
 			fmt.Printf(separator3, "---", "-----")

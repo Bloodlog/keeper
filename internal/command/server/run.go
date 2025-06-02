@@ -44,17 +44,23 @@ func run(cfg *config.MainServerConfig) error {
 		return fmt.Errorf("database error: %w", err)
 	}
 	// Init File storage
-	if cfg.Storage.StorageType == "file_storage" {
-		_, err := store.NewFileStorage(ctx, cfg.FileStorageConfig)
-		if err != nil {
-			return fmt.Errorf("file storage error: %w", err)
-		}
+	var minioClient *store.FileStorage
+	minioClient, err = store.NewFileStorage(ctx, &cfg.FileStorageConfig)
+	if err != nil {
+		return fmt.Errorf("file storage error: %w", err)
 	}
 	// Init repositories
 	userRepo := repository.NewUserRepository(database.Pool)
 	vaultRepo := repository.NewVaultRepository(database.Pool)
 	accessRepo := repository.NewAccessRepository(database.Pool)
-
+	var fileRepo *repository.MinIORepository
+	if minioClient != nil {
+		fileRepo = repository.NewMinIORepository(
+			minioClient.FileClient,
+			cfg.FileStorageConfig.BucketName,
+			cfg.FileStorageConfig.URLExpiredTTL,
+		)
+	}
 	// Init services
 	jwtService := service.NewJwtService(cfg.Security)
 	authService := service.NewAuthService(database.Pool, userRepo, accessRepo, jwtService, cfg.Security, l)
@@ -62,7 +68,7 @@ func run(cfg *config.MainServerConfig) error {
 	if err != nil {
 		return fmt.Errorf("failed to init crypto service: %w", err)
 	}
-	vaultService := service.NewVaultService(vaultRepo, cryptoService)
+	vaultService := service.NewVaultService(vaultRepo, cryptoService, fileRepo)
 
 	// Init handlers
 	// WEB handlers.

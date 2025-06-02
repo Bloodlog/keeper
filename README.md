@@ -29,22 +29,26 @@ GophKeeper представляет собой клиент-серверную �
 
 Пример регистрации:
 ```bash
-./agent register --login test --password -test
+keeper-agent register --login test --password -test
 ```
 
 Пример авторизации:
 ```bash
-./agent login --login test --password -test
+keeper-agent login --login test --password -test
 ```
 
-Пример сохранения ключа:
+Пример сохранения ключа С JSON:
 ```bash
-./agent write --path=123 --description="login&password" --value='{"username":"gh-user","password":"gh-pass"}' --max-ttl=1000
+keeper-agent write --path=123 --description="login&password" --value='{"username":"gh-user","password":"gh-pass"}' --max-ttl=1000
+```
+Пример сохранения файла:
+```bash
+keeper-agent write --path secret/bar --file ./alice.jpg
 ```
 
 Пример вывода списка ключей:
 ```bash
-./agent list
+keeper-agent list
 ```
 
 ### Удаление ключей
@@ -78,10 +82,69 @@ keeper-agent delete --path my/secret/path --token-file .keeper-token
 ```bash
 keeper-agent read --path my/secret/path
 ```
+response:
+```bash 
+Build version: N/A
+Build date: N/A
+Build commit: N/A
+====== Metadata ======
+Key              Value
+---              -----
+created_time     1970-01-01T00:00:00Z
+deletion_time    n/a
+destroyed        false
+version          3
+
+====== Data ======
+Key          Value
+---          -----
+username     gh-user
+password     gh-pass
+
+```
+response:
+```bash
+Build version: N/A
+Build date: N/A
+Build commit: N/A
+====== Metadata ======
+Key              Value
+---              -----
+created_time     1970-01-01T00:00:00Z
+deletion_time    n/a
+destroyed        false
+version          6
+Key              Value
+---              -----
+alice.jpg    FILE-UPLOADED
+```
 
 С флагом --out-file, чтобы сохранить значение в файл:
 ```bash
 keeper-agent read --path my/secret/path --out-file 1.json
+```
+
+С флагом --out-file, чтобы восстановить файл значение в файл:
+```bash
+keeper-agent read --path secret/bar --out-file alice2.jpg
+```
+response:
+```bash
+Build version: N/A
+Build date: N/A
+Build commit: N/A
+====== Metadata ======
+Key              Value
+---              -----
+created_time     1970-01-01T00:00:00Z
+deletion_time    n/a
+destroyed        false
+version          6
+Key              Value
+---              -----
+alice.jpg    FILE-UPLOADED
+
+✅ Secret written to file: alice2.jpg
 ```
 
 ## TLS:

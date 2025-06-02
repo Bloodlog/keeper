@@ -43,6 +43,14 @@ func (s *remoteVaultService) GetSecret(ctx context.Context, token string, path s
 		t := ts.AsTime()
 		deletedAt = &t
 	}
+	filePathStr := resp.GetFilePath()
+
+	var filePath *string
+	if filePathStr != "" {
+		filePath = &filePathStr
+	} else {
+		filePath = nil
+	}
 
 	return &dto.AgentGetSecret{
 		Path:        resp.GetPath(),
@@ -52,6 +60,7 @@ func (s *remoteVaultService) GetSecret(ctx context.Context, token string, path s
 		Version:     resp.GetVersion(),
 		ExpiredAt:   resp.GetExpiredAt().AsTime(),
 		CreatedAt:   resp.GetCreatedAt().AsTime(),
+		FilePath:    filePath,
 	}, nil
 }
 
@@ -74,6 +83,9 @@ func (s *remoteVaultService) SaveSecret(ctx context.Context, req *dto.AgentCreat
 	pbReq.SetDescription(req.Description)
 	pbReq.SetValue(req.Payload)
 	pbReq.SetExpiredAt(timestamppb.New(req.ExpiredAt))
+	if req.FilePath != nil {
+		pbReq.SetFilePath(*req.FilePath)
+	}
 
 	_, err := s.client.SaveSecret(ctx, pbReq)
 	if err != nil {

@@ -8,6 +8,7 @@ import (
 	"keeper/internal/dto"
 	"keeper/internal/service"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -17,6 +18,8 @@ import (
 const flagKeyValue = "value"
 const flagKeyDescription = "description"
 const flagKeyMaxTTL = "max-ttl"
+const flagKeyFile = "file"
+const maxFileSize = 10 * 1024 * 1024
 
 var writeCmd = &cobra.Command{
 	Use:   "write",
@@ -25,6 +28,7 @@ var writeCmd = &cobra.Command{
 		path, _ := cmd.Flags().GetString(flagKeyName)
 		description, _ := cmd.Flags().GetString(flagKeyDescription)
 		value, _ := cmd.Flags().GetString(flagKeyValue)
+		filePath, _ := cmd.Flags().GetString(flagKeyFile)
 		expired, _ := cmd.Flags().GetInt(flagKeyMaxTTL)
 		token, _ := cmd.Flags().GetString(flagToken)
 		tokenFile, _ := cmd.Flags().GetString(flagTokenFile)
@@ -44,8 +48,38 @@ var writeCmd = &cobra.Command{
 			return errors.New(errorTokenRequired)
 		}
 
-		if !json.Valid([]byte(value)) {
-			return errors.New("value is not valid JSON")
+		if value != "" && filePath != "" {
+			return errors.New("only one of --value or --file can be used")
+		}
+		if value == "" && filePath == "" {
+			return errors.New("either --value or --file must be provided")
+		}
+
+		var (
+			payload    []byte
+			storedName *string
+		)
+
+		if filePath != "" {
+			info, err := os.Stat(filePath)
+			if err != nil {
+				return fmt.Errorf("failed to stat file %s: %w", filePath, err)
+			}
+			if info.Size() > maxFileSize {
+				return fmt.Errorf("file is too large: %d bytes (max %d bytes)", info.Size(), maxFileSize)
+			}
+			data, err := os.ReadFile(filePath)
+			if err != nil {
+				return fmt.Errorf("failed to read file %s: %w", filePath, err)
+			}
+			payload = data
+			filename := filepath.Base(filePath)
+			storedName = &filename
+		} else {
+			if !json.Valid([]byte(value)) {
+				return errors.New("value is not valid JSON")
+			}
+			payload = []byte(value)
 		}
 
 		ttl := expired
@@ -63,7 +97,8 @@ var writeCmd = &cobra.Command{
 				Token:       token,
 				Path:        path,
 				Description: description,
-				Payload:     []byte(value),
+				FilePath:    storedName,
+				Payload:     payload,
 				ExpiredAt:   expiredAt,
 			})
 			if err != nil {
@@ -86,7 +121,7 @@ func init() {
 		flagTokenFile,
 		defaultTokenFile,
 		flagTokenFileDescription)
+	writeCmd.Flags().String(flagKeyFile, "", "Path to a file to use as secret value")
 
 	_ = writeCmd.MarkFlagRequired(flagKeyName)
-	_ = writeCmd.MarkFlagRequired(flagKeyValue)
 }

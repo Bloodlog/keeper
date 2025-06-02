@@ -14,7 +14,7 @@ type FileStorage struct {
 	FileClient *minio.Client
 }
 
-func NewFileStorage(ctx context.Context, cfg config.FileStorageConfig) (*FileStorage, error) {
+func NewFileStorage(ctx context.Context, cfg *config.FileStorageConfig) (*FileStorage, error) {
 	var fileAddress = cfg.Address + ":" + strconv.Itoa(cfg.Port)
 	client, err := minio.New(
 		fileAddress, &minio.Options{

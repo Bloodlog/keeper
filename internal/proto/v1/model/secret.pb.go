@@ -30,6 +30,7 @@ type WriteSecret struct {
 	xxx_hidden_ExpiredAt   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=expired_at,json=expiredAt"`
 	xxx_hidden_Description *string                `protobuf:"bytes,4,opt,name=description"`
 	xxx_hidden_Value       []byte                 `protobuf:"bytes,5,opt,name=value"`
+	xxx_hidden_FilePath    *string                `protobuf:"bytes,6,opt,name=file_path,json=filePath"`
 	XXX_raceDetectHookData protoimpl.RaceDetectHookData
 	XXX_presence           [1]uint32
 	unknownFields          protoimpl.UnknownFields
@@ -105,14 +106,24 @@ func (x *WriteSecret) GetValue() []byte {
 	return nil
 }
 
+func (x *WriteSecret) GetFilePath() string {
+	if x != nil {
+		if x.xxx_hidden_FilePath != nil {
+			return *x.xxx_hidden_FilePath
+		}
+		return ""
+	}
+	return ""
+}
+
 func (x *WriteSecret) SetToken(v string) {
 	x.xxx_hidden_Token = &v
-	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 5)
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 6)
 }
 
 func (x *WriteSecret) SetPath(v string) {
 	x.xxx_hidden_Path = &v
-	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 1, 5)
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 1, 6)
 }
 
 func (x *WriteSecret) SetExpiredAt(v *timestamppb.Timestamp) {
@@ -121,7 +132,7 @@ func (x *WriteSecret) SetExpiredAt(v *timestamppb.Timestamp) {
 
 func (x *WriteSecret) SetDescription(v string) {
 	x.xxx_hidden_Description = &v
-	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 3, 5)
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 3, 6)
 }
 
 func (x *WriteSecret) SetValue(v []byte) {
@@ -129,7 +140,12 @@ func (x *WriteSecret) SetValue(v []byte) {
 		v = []byte{}
 	}
 	x.xxx_hidden_Value = v
-	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 4, 5)
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 4, 6)
+}
+
+func (x *WriteSecret) SetFilePath(v string) {
+	x.xxx_hidden_FilePath = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 5, 6)
 }
 
 func (x *WriteSecret) HasToken() bool {
@@ -167,6 +183,13 @@ func (x *WriteSecret) HasValue() bool {
 	return protoimpl.X.Present(&(x.XXX_presence[0]), 4)
 }
 
+func (x *WriteSecret) HasFilePath() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 5)
+}
+
 func (x *WriteSecret) ClearToken() {
 	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
 	x.xxx_hidden_Token = nil
@@ -191,6 +214,11 @@ func (x *WriteSecret) ClearValue() {
 	x.xxx_hidden_Value = nil
 }
 
+func (x *WriteSecret) ClearFilePath() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 5)
+	x.xxx_hidden_FilePath = nil
+}
+
 type WriteSecret_builder struct {
 	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
 
@@ -199,6 +227,7 @@ type WriteSecret_builder struct {
 	ExpiredAt   *timestamppb.Timestamp
 	Description *string
 	Value       []byte
+	FilePath    *string
 }
 
 func (b0 WriteSecret_builder) Build() *WriteSecret {
@@ -206,21 +235,25 @@ func (b0 WriteSecret_builder) Build() *WriteSecret {
 	b, x := &b0, m0
 	_, _ = b, x
 	if b.Token != nil {
-		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 5)
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 6)
 		x.xxx_hidden_Token = b.Token
 	}
 	if b.Path != nil {
-		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 1, 5)
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 1, 6)
 		x.xxx_hidden_Path = b.Path
 	}
 	x.xxx_hidden_ExpiredAt = b.ExpiredAt
 	if b.Description != nil {
-		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 3, 5)
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 3, 6)
 		x.xxx_hidden_Description = b.Description
 	}
 	if b.Value != nil {
-		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 4, 5)
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 4, 6)
 		x.xxx_hidden_Value = b.Value
+	}
+	if b.FilePath != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 5, 6)
+		x.xxx_hidden_FilePath = b.FilePath
 	}
 	return m0
 }
@@ -342,6 +375,7 @@ type SecretResponse struct {
 	xxx_hidden_Version     int64                  `protobuf:"varint,6,opt,name=version"`
 	xxx_hidden_DeletedAt   *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=deleted_at,json=deletedAt"`
 	xxx_hidden_CreatedAt   *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt"`
+	xxx_hidden_FilePath    *string                `protobuf:"bytes,9,opt,name=file_path,json=filePath"`
 	XXX_raceDetectHookData protoimpl.RaceDetectHookData
 	XXX_presence           [1]uint32
 	unknownFields          protoimpl.UnknownFields
@@ -428,9 +462,19 @@ func (x *SecretResponse) GetCreatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *SecretResponse) GetFilePath() string {
+	if x != nil {
+		if x.xxx_hidden_FilePath != nil {
+			return *x.xxx_hidden_FilePath
+		}
+		return ""
+	}
+	return ""
+}
+
 func (x *SecretResponse) SetPath(v string) {
 	x.xxx_hidden_Path = &v
-	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 7)
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 8)
 }
 
 func (x *SecretResponse) SetExpiredAt(v *timestamppb.Timestamp) {
@@ -439,7 +483,7 @@ func (x *SecretResponse) SetExpiredAt(v *timestamppb.Timestamp) {
 
 func (x *SecretResponse) SetDescription(v string) {
 	x.xxx_hidden_Description = &v
-	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 2, 7)
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 2, 8)
 }
 
 func (x *SecretResponse) SetValue(v []byte) {
@@ -447,12 +491,12 @@ func (x *SecretResponse) SetValue(v []byte) {
 		v = []byte{}
 	}
 	x.xxx_hidden_Value = v
-	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 3, 7)
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 3, 8)
 }
 
 func (x *SecretResponse) SetVersion(v int64) {
 	x.xxx_hidden_Version = v
-	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 4, 7)
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 4, 8)
 }
 
 func (x *SecretResponse) SetDeletedAt(v *timestamppb.Timestamp) {
@@ -461,6 +505,11 @@ func (x *SecretResponse) SetDeletedAt(v *timestamppb.Timestamp) {
 
 func (x *SecretResponse) SetCreatedAt(v *timestamppb.Timestamp) {
 	x.xxx_hidden_CreatedAt = v
+}
+
+func (x *SecretResponse) SetFilePath(v string) {
+	x.xxx_hidden_FilePath = &v
+	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 7, 8)
 }
 
 func (x *SecretResponse) HasPath() bool {
@@ -512,6 +561,13 @@ func (x *SecretResponse) HasCreatedAt() bool {
 	return x.xxx_hidden_CreatedAt != nil
 }
 
+func (x *SecretResponse) HasFilePath() bool {
+	if x == nil {
+		return false
+	}
+	return protoimpl.X.Present(&(x.XXX_presence[0]), 7)
+}
+
 func (x *SecretResponse) ClearPath() {
 	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
 	x.xxx_hidden_Path = nil
@@ -544,6 +600,11 @@ func (x *SecretResponse) ClearCreatedAt() {
 	x.xxx_hidden_CreatedAt = nil
 }
 
+func (x *SecretResponse) ClearFilePath() {
+	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 7)
+	x.xxx_hidden_FilePath = nil
+}
+
 type SecretResponse_builder struct {
 	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
 
@@ -554,6 +615,7 @@ type SecretResponse_builder struct {
 	Version     *int64
 	DeletedAt   *timestamppb.Timestamp
 	CreatedAt   *timestamppb.Timestamp
+	FilePath    *string
 }
 
 func (b0 SecretResponse_builder) Build() *SecretResponse {
@@ -561,24 +623,28 @@ func (b0 SecretResponse_builder) Build() *SecretResponse {
 	b, x := &b0, m0
 	_, _ = b, x
 	if b.Path != nil {
-		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 7)
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 8)
 		x.xxx_hidden_Path = b.Path
 	}
 	x.xxx_hidden_ExpiredAt = b.ExpiredAt
 	if b.Description != nil {
-		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 2, 7)
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 2, 8)
 		x.xxx_hidden_Description = b.Description
 	}
 	if b.Value != nil {
-		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 3, 7)
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 3, 8)
 		x.xxx_hidden_Value = b.Value
 	}
 	if b.Version != nil {
-		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 4, 7)
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 4, 8)
 		x.xxx_hidden_Version = *b.Version
 	}
 	x.xxx_hidden_DeletedAt = b.DeletedAt
 	x.xxx_hidden_CreatedAt = b.CreatedAt
+	if b.FilePath != nil {
+		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 7, 8)
+		x.xxx_hidden_FilePath = b.FilePath
+	}
 	return m0
 }
 
@@ -586,17 +652,18 @@ var File_model_secret_proto protoreflect.FileDescriptor
 
 const file_model_secret_proto_rawDesc = "" +
 	"\n" +
-	"\x12model/secret.proto\x12\x17keeper.go.grpc.v1.model\x1a\x1fgoogle/protobuf/timestamp.proto\x1a!google/protobuf/go_features.proto\"\xaa\x01\n" +
+	"\x12model/secret.proto\x12\x17keeper.go.grpc.v1.model\x1a\x1fgoogle/protobuf/timestamp.proto\x1a!google/protobuf/go_features.proto\"\xc7\x01\n" +
 	"\vWriteSecret\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\x129\n" +
 	"\n" +
 	"expired_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\texpiredAt\x12 \n" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x14\n" +
-	"\x05value\x18\x05 \x01(\fR\x05value\"H\n" +
+	"\x05value\x18\x05 \x01(\fR\x05value\x12\x1b\n" +
+	"\tfile_path\x18\x06 \x01(\tR\bfilePath\"H\n" +
 	"\x12SaveSecretResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\xa7\x02\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"\xc4\x02\n" +
 	"\x0eSecretResponse\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\x129\n" +
 	"\n" +
@@ -607,7 +674,8 @@ const file_model_secret_proto_rawDesc = "" +
 	"\n" +
 	"deleted_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tdeletedAt\x129\n" +
 	"\n" +
-	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x1b\n" +
+	"\tfile_path\x18\t \x01(\tR\bfilePathB(Z\x1ekeeper/internal/proto/v1/model\x92\x03\x05\xd2>\x02\x10\x03b\beditionsp\xe8\a"
 
 var file_model_secret_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_model_secret_proto_goTypes = []any{

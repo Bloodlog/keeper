@@ -17,6 +17,4 @@ func TestNewServerConfig(t *testing.T) {
 
 	assert.Equal(t, "secret", cfg.Security.EncryptionKey)
 	assert.Equal(t, 24*time.Hour, cfg.Security.TokenTTL)
-
-	assert.Equal(t, "database", cfg.Storage.StorageType)
 }

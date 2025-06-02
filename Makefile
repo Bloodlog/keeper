@@ -59,7 +59,6 @@ go-test-cover-internal:
 	go test ./internal/... -coverprofile=coverage.out
 	go tool cover -func=coverage.out
 
-
 GOLANGCI_LINT_CACHE?=/tmp/praktikum-golangci-lint-cache
 
 .PHONY: golangci-lint-run
