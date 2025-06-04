@@ -7,7 +7,7 @@ RUN go mod download
 
 COPY . .
 
-RUN GOARCH=amd64 go build -o agent ./cmd/agent/main.go
+RUN GOOS=linux GOARCH=amd64 go build -o agent ./cmd/agent/main.go
 
 FROM alpine:latest
 
@@ -17,4 +17,4 @@ COPY --from=builder /app/agent /app/agent
 
 RUN chmod +x /app/agent
 
-CMD ["/app/agent", "login", "--login", "test", "--password", "-test"]
+CMD ["sh", "-c", "tail -f /dev/null"]

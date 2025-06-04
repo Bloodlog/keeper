@@ -179,3 +179,53 @@ export KEEPER_ENABLE_TLS=true
 export KEEPER_CA_CERT=cert/public.cert
 ```
 =======
+
+### Пример запуска в docker compose:
+
+```bash
+docker compose up
+```
+
+Для входа в контейнер с агентом:
+```bash 
+docker exec -it agent-keeper sh
+```
+
+Оказавшись в контейнере можем выполнять любые команды:
+```bash
+./agent
+```
+Response: 
+```bash
+Build version: N/A
+Build date: N/A
+Build commit: N/A
+Run the GophKeeper agent
+
+Usage:
+  keeper-agent [command]
+
+Available Commands:
+  completion  Generate the autocompletion script for the specified shell
+  delete      Delete a secret by path
+  help        Help about any command
+  list        List secret paths
+  login       Login user
+  read        Read a secret by path
+  register    Register a new user
+  write       Store a new secret
+
+Flags:
+      --ca-cert string        Path to CA certificate file (default "cert/public.cert")
+      --enable-tls            Enable TLS when connecting to the server
+      --grpc-address string   gRPC server address (default "app-keeper")
+      --grpc-port int         gRPC server port (default 8081)
+  -h, --help                  help for keeper-agent
+
+Use "keeper-agent [command] --help" for more information about a command.
+```
+
+### Для разрешения загрузки файлов в minio нужно создать bucket:
+
+1. Заходим в http://127.0.0.1:9001/browser/keeper или другой адресс указанный в docker compose
+2. Нажимаем Create Bucket и вводим имя: keeper

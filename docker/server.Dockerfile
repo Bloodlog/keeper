@@ -7,7 +7,7 @@ RUN go mod download
 
 COPY . .
 
-RUN GOARCH=amd64 go build -o server ./cmd/server/main.go
+RUN GOOS=linux GOARCH=amd64 go build -o server ./cmd/server/main.go
 
 FROM alpine:latest
 
