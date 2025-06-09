@@ -1,0 +1,15 @@
+BEGIN TRANSACTION;
+
+CREATE TABLE IF NOT EXISTS secrets_metadata (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    title VARCHAR(255) NOT NULL,
+    expired_at TIMESTAMP NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at  TIMESTAMP NOT NULL DEFAULT now(),
+    deleted_at TIMESTAMP,
+    UNIQUE(user_id, title)
+);
+
+COMMIT;

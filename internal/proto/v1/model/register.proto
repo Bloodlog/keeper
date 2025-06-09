@@ -1,0 +1,18 @@
+edition = "2023";
+
+option go_package = "keeper/internal/proto/v1/model";
+
+package keeper.go.grpc.v1.model;
+import "google/protobuf/go_features.proto";
+option features.(pb.go).api_level = API_OPAQUE;
+
+message RegisterRequest {
+  string login = 1;
+  string password = 2;
+}
+
+message RegisterResponse {
+  bool success = 1;
+  string message = 2;
+  string token = 3;
+}

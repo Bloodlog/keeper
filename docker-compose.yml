@@ -1,0 +1,78 @@
+services:
+  postgres-keeper:
+    container_name: postgres-keeper
+    image: postgres:17.2
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U keeper -d keeper" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: "P@ssw0rd"
+      PGDATA: "/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./db/init:/docker-entrypoint-initdb.d"
+      - "postgres_data:/var/lib/postgresql/data"
+    networks:
+      - keeper
+
+  app-keeper:
+    build:
+      context: .
+      dockerfile: docker/server.Dockerfile
+    container_name: app-keeper
+    depends_on:
+      postgres-keeper:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    networks:
+      - keeper
+    environment:
+      KEEPER_DSN: postgres://keeper:password@postgres-keeper:5432/keeper?sslmode=disable
+      KEEPER_ADDRESS: app-keeper
+      KEEPER_PORT: 8080
+      KEEPER_GRPC_ADDRESS: app-keeper
+      KEEPER_GRPC_PORT: 8081
+
+  agent-keeper:
+    build:
+      context: .
+      dockerfile: docker/agent.Dockerfile
+    container_name: agent-keeper
+    depends_on:
+      - app-keeper
+    networks:
+      - keeper
+    environment:
+      KEEPER_GRPC_ADDRESS: app-keeper
+      KEEPER_GRPC_PORT: 8081
+
+  minio-keeper:
+    image: minio/minio:latest
+    container_name: minio-keeper
+    ports:
+      - "9000:9000"   # API
+      - "9001:9001"   # Web UI
+    environment:
+      MINIO_ROOT_USER: minioadmin       # логин
+      MINIO_ROOT_PASSWORD: minioadmin   # пароль
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - keeper
+
+volumes:
+  postgres_data:
+  minio_data:
+
+networks:
+  keeper:
+    driver: bridge

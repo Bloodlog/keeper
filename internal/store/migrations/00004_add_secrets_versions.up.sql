@@ -1,0 +1,14 @@
+BEGIN TRANSACTION;
+
+CREATE TABLE IF NOT EXISTS secret_versions (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    metadata_id INTEGER NOT NULL REFERENCES secrets_metadata(id) ON DELETE CASCADE,
+    version INTEGER NOT NULL,
+    content BYTEA NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMP,
+    destroyed BOOLEAN DEFAULT FALSE,
+    UNIQUE(metadata_id, version)
+);
+
+COMMIT;

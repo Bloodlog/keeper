@@ -25,3 +25,11 @@ vendor/
 .vscode
 .DS_Store
 internal/.DS_Store
+
+# secret
+.keeper-token
+cmd/agent/.keeper-token
+
+cert/*.cert
+
+golangci-lint
